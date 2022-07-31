@@ -1,0 +1,45 @@
+@import './Mixin.module.scss';
+
+.wrapper,
+.story {
+  padding: 20px;
+  margin-top: 20px;
+  border: 1px solid gray;
+  border-radius: 20px;
+  //  box-shadow: 0 8px 15px 0 rgba(31, 38, 135, 0.37);
+}
+
+.wrapper {
+  width: min(350px, 400px);
+}
+
+.title {
+  font-size: 1.2em;
+}
+
+.stats_wrapper {
+  @include flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.stat {
+  @include flex;
+  flex-direction: row;
+  * {
+    font-size: 1.2em;
+  }
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+#like_icon {
+  color: #007cff;
+  transition: all 0.3s ease;
+  &:hover {
+    color: red;
+  }
+}

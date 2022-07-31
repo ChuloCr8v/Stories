@@ -1,0 +1,51 @@
+.container {
+  height: 100vh;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(6.5px);
+  -webkit-backdrop-filter: blur(6.5px);
+  z-index: 100;
+}
+
+.bg_one {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  height: 80px;
+  width: 80px;
+  border: 3px #fff solid;
+  border-radius: 100%;
+  animation: animate 1s infinite alternate ease-in-out;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.bg_two {
+  height: 90px;
+  width: 90px;
+  border: 2px #000 solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transform: rotate(45deg);
+
+}
+
+.loading_msg {
+  font-size: 1.5em;
+}
+
+@keyframes animate {
+  0% {
+    transform: scale(.1);
+  }
+  100% {
+    transform: scale(1.3);
+  }
+}

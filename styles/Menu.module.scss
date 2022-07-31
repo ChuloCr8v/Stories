@@ -1,0 +1,39 @@
+.menu {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: lightgray ;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+}
+
+.icon {
+  font-size: 1.5rem;
+}
+
+#write_menu_item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  background: #000;
+  border: 10px solid #fff;
+  border-radius: 100%;
+  position: absolute;
+  top: -50px;
+  left: calc(50% - 50px);
+  transition: all 0.3s ease;
+  &:hover {
+    background: #454545;
+    transform: rotate(-45deg); 
+  }
+  .icon {
+    font-size: 2.5rem;
+    color: #fff;
+  }
+}
