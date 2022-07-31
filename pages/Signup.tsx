@@ -12,6 +12,7 @@ const Signup :FC = (props) => {
   
   const [fullName, setFullName] = useState<string>("")
   const [email, setEmail] = useState<string>("")
+  const [username, setUsername] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [user, setUser] = useState<any>(null)
   const [showToast, setShowToast] = useState<boolean>(false)
@@ -29,6 +30,10 @@ const Signup :FC = (props) => {
         <Input placeholder="Enter Full Name" type="text" onChange={(e) => setFullName(e.target.value)} value={fullName} />
        </div>
        <div className={styles.form_group}>
+        <label htmlFor="username">Username</label>
+        <Input placeholder="Pick a unique username" type="text" onChange={(e) => setUsername(e.target.value)} value={username} />
+       </div>
+       <div className={styles.form_group}>
         <label htmlFor="email">Email</label>
         <Input placeholder="Enter Valid Email" type="email" onChange={(e) => setEmail(e.target.value)} value={email} />
        </div>
@@ -36,7 +41,7 @@ const Signup :FC = (props) => {
         <label htmlFor="password">Password</label>
         <Input placeholder={"Choose Password"} type={"password"} onChange={(e) => setPassword(e.target.value)} value={password} />
        </div>
-       <Button text={"Signup"} onClick={() => signup(fullName, email, password, setShowWarning, setShowToast, setUser, doc, setDoc, db, setLoading)} />
+       <Button text={"Signup"} onClick={() => signup(fullName, email, username, password, setShowWarning, setShowToast, setUser, doc, setDoc, db, setLoading)} />
        <p className={styles.login_url}>Have an account? <span><Link href="/Login"><a className={styles.url}>Login here </a></Link></span></p>
       </div>
     </div>

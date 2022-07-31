@@ -1,14 +1,15 @@
 import {FC} from 'react'
 import styles from '../styles/Button.module.scss'
 interface Props {
-  text: string;
+  text: any;
   onClick: () => void;
   disabled?: boolean;
+  bg: any;
 }
 
 const Button:FC <Props> = (props) => {
   return(
-      <button className={styles.btn} onClick={props.onClick} disabled={props.disabled}>{props.text}</button>
+      <button className={styles.btn} onClick={props.onClick} disabled={props.disabled} style={{background: props.bg}} >{props.text}</button>
     )
 }
 

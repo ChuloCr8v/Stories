@@ -16,10 +16,10 @@ interface Props {
   posterEmail: string
 }
 
-const sendPost: FC <Props> = async ({title, post, loading, setLoading, setConfirmPost, setTitle, setPost, postId, posterName, posterEmail}) => {
+const sendPost: FC <Props> = async ({title, post, loading, setLoading, setConfirmPost, setTitle, setPost, postId, posterName, posterEmail, username}) => {
     try {
       {setLoading(true)} 
-      await setDoc(doc(db, "posts", `${postId}`), {title, post, posterName, posterEmail, isApproved: false, timeStamp: Date.now(), comments: [], likes: [], views: 0, postId}, {merge: true} ); 
+      await setDoc(doc(db, "posts", `${postId}`), {title, post, username, posterName, posterEmail, isApproved: false, timeStamp: Date.now(), comments: [], likes: [], views: 0, postId}, {merge: true} ); 
       {setLoading(false)}
       setConfirmPost(false)
       {setTitle('')}

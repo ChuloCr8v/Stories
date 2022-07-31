@@ -22,7 +22,7 @@ const LatestStories :FC = () => {
         {!loading ? (<div>
            {approvedStories.map((story) => (
          
-             <Story title={story.title} story={story.post} posterName={story.posterName} likes={story.likes} views={story.views} postId={story.postId} posterEmail={story.posterEmail} postId={story.postId} approvedStories={approvedStories} setApprovedStories={setApprovedStories}  />
+             <Story title={story.title} story={story.post} username={story.username} posterName={story.posterName} likes={story.likes} views={story.views} postId={story.postId} posterEmail={story.posterEmail} posterName={story.posterName} postId={story.postId} approvedStories={approvedStories} setApprovedStories={setApprovedStories}  />
            ))}
          </div>) : <Loading />} 
        </div>

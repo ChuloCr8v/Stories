@@ -22,6 +22,7 @@ const WritePost : FC <Props> = (props) => {
   const [user, setUser] = useState<string>('')
   const [posterName, setPosterName] = useState<any>(null )
   const [posterEmail, setPosterEmail] = useState<any>('')
+  const [username, setUsername] = useState<any>('')
   
   const postId = Date.now()
   
@@ -37,7 +38,7 @@ const WritePost : FC <Props> = (props) => {
     }
     
     const confirm = async () => {
-        sendPost({title, post, loading, setLoading, setConfirmPost, setTitle, setPost, postId, posterName, posterEmail})
+        sendPost({title, post, loading, setLoading, setConfirmPost, setTitle, setPost, postId, posterName, posterEmail, username})
    
     }
     
@@ -55,6 +56,7 @@ const WritePost : FC <Props> = (props) => {
       // doc.data() is never undefined for query doc snapshots
          setPosterName(doc.data().fullName)
          setPosterEmail(doc.data().email)
+         setUsername(doc.data().username)
          
       });
       } 
