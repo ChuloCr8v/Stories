@@ -1,5 +1,5 @@
 import {FC} from 'react'
-import { doc, setDoc, collection, getDocs} from "firebase/firestore"; 
+import { doc, setDoc, collection, getDocs, getDoc} from "firebase/firestore"; 
 import {db} from './firebase'
 
 interface Props {
@@ -18,6 +18,7 @@ interface Props {
 
 const sendPost: FC <Props> = async ({title, post, loading, setLoading, setConfirmPost, setTitle, setPost, postId, posterName, posterEmail, username}) => {
     try {
+    //  console.log(username)
       {setLoading(true)} 
       await setDoc(doc(db, "posts", `${postId}`), {title, post, username, posterName, posterEmail, isApproved: false, timeStamp: Date.now(), comments: [], likes: [], views: 0, postId}, {merge: true} ); 
       {setLoading(false)}
@@ -44,4 +45,14 @@ const fetchApprovedStories : FC<Props> = async (approvedStories, setLoading) => 
   }
 }
 
-export {sendPost, fetchApprovedStories}
+const fetchUsers = async (setUsers) => {
+   try {
+       const querySnapshot = await getDocs(collection(db, "users"));
+        setUsers(querySnapshot);
+
+   } catch(e) {
+       console.log(e)
+    } 
+}
+
+export {sendPost, fetchApprovedStories, fetchUsers}

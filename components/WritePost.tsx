@@ -9,64 +9,58 @@ import {sendPost} from '../constants/methods'
 import {FaBomb} from 'react-icons/fa'
 import Loading from './Loading'
 import {auth} from '../constants/firebase'
-import { query, where, doc, setDoc, collection, getDocs} from "firebase/firestore"; 
+import { query, where, doc, setDoc, collection, getDoc} from "firebase/firestore"; 
 import {db} from '../constants/firebase'
 
-const WritePost : FC <Props> = (props) => {
-  
-  const [title, setTitle] = useState<string>('')
-  const [post, setPost] = useState<string>('')
-  const [confirmPost, setConfirmPost] = useState<boolean>(false)
-  const [showWarning, setShowWarning] = useState<boolean>(false)
-  const [loading, setLoading] = useState<boolean>(false)
-  const [user, setUser] = useState<string>('')
-  const [posterName, setPosterName] = useState<any>(null )
-  const [posterEmail, setPosterEmail] = useState<any>('')
-  const [username, setUsername] = useState<any>('')
-  
-  const postId = Date.now()
-  
-    const confirmNewPost = (title, post)  => {
-    if(!title || !post ){
-      setShowWarning(true)
-      setTimeout(() => {
-        setShowWarning(false)
-      }, 2000);
-    } else {
-      setConfirmPost(true)
-    } 
-    }
-    
-    const confirm = async () => {
-        sendPost({title, post, loading, setLoading, setConfirmPost, setTitle, setPost, postId, posterName, posterEmail, username})
-   
-    }
-    
-   useEffect(() => {
-     const _user = auth.currentUser
-     setUser(_user)
-   }, [])
-   
-    
-    useEffect(() => {
-      const set = async () => {
-      const q = query(collection(db, "users"), where("email", "==", user.email));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-         setPosterName(doc.data().fullName)
-         setPosterEmail(doc.data().email)
-         setUsername(doc.data().username)
-         
-      });
-      } 
-      
-      set()
-     
-    }, [user])
-      
-    
-   
+const WritePost : FC <Props> = (props) => {  const [title, setTitle] = useState<string>('')
+const [post, setPost] = useState<string>('')
+const [confirmPost, setConfirmPost] = useState<boolean>(false)
+const [showWarning, setShowWarning] = useState<boolean>(false)
+const [loading, setLoading] = useState <boolean>(false)
+const [user, setUser] = useState<string>('')
+const [posterName, setPosterName] = useState<any>(null)
+const [posterEmail, setPosterEmail] = useState<any>('')
+const [username, setUsername] = useState<any>('')
+
+const postId = Date.now()
+
+const confirmNewPost = (title, post) => {
+  set()
+  console.log(username)
+  if (!title || !post) {
+    setShowWarning(true)
+    setTimeout(() => {
+      setShowWarning(false)
+    }, 2000);
+  } else {
+    setConfirmPost(true)
+  }
+}
+
+const confirm = async () => {
+  sendPost({
+    title, post, loading, setLoading, setConfirmPost, setTitle, setPost, postId, posterName, posterEmail, username
+  })
+
+}
+
+useEffect(() => {
+  const _user = auth.currentUser
+  setUser(_user)
+}, [])
+
+
+const set = async () => {
+  try {
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef); 
+    setPosterName(docSnap.data().fullName)
+    setPosterEmail(docSnap.data().email)
+    setUsername(docSnap.data().username)
+  } catch (e) {
+    console.log(e)
+  }
+}
  
   return (
     <div className={styles.write_post}>

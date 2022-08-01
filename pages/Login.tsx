@@ -19,7 +19,6 @@ const Login: FC = (props) => {
     e.preventDefault();
     if (email && password) {
       setLoading(true);
-
       try {
         const res = await auth.signInWithEmailAndPassword(email, password);
         const _user = res.user;
@@ -30,6 +29,9 @@ const Login: FC = (props) => {
       } catch (err) {
         console.error(err);
         setShowToast(true);
+        setTimeout(() => {
+         setShowToast(false);
+        }, 3000);
         setLoading(false);
       }
     } else {
@@ -48,7 +50,7 @@ const Login: FC = (props) => {
             msg={
               user
                 ? "Login Successful!"
-                : "error, Login failed. Please try one more time"
+                : "error, incorrect username/password."
             }
             closeIcon={
               <FaTimes
