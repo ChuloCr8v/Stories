@@ -5,7 +5,7 @@ import {auth, db} from '../constants/firebase'
 import firebase from "firebase/compat/app";
 import { getFirestore, arrayRemove, arrayUnion, deleteField, writeBatch, doc, updateDoc, getDoc } from "firebase/firestore";
 import {fetchUsers} from '../constants/methods'
-
+import Link from 'next/link'
 import Spinner from './Spinner'
 
 interface Props {
@@ -98,8 +98,20 @@ const Story : FC <Props> = (props) => {
   
   return (
      <div className={styles.wrapper}>
-        welcome {user} 
-       <h2 className={styles.title}>{props.title} </h2>
+        <Link href={{
+                  pathname: "/[id]",
+                  query: {
+                    id: props.postId,
+                    title: props.title,
+                    story: props.story,
+                    username: props.username,
+                  },
+                }} 
+      >
+       <a className={styles.single_story}> 
+         <h2 className={styles.title}>{props.title} </h2>
+       </a>
+       </Link> 
        <p className={styles.name}><span>By: </span>{props.username || props.posterName} </p>
        <p className={styles.story}>{props.story} </p>
      <div className={styles.stats_wrapper}>

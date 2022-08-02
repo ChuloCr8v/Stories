@@ -28,11 +28,13 @@ const confirmNewPost = (title, post) => {
   set()
   console.log(username)
   if (!title || !post) {
+    set()
     setShowWarning(true)
     setTimeout(() => {
       setShowWarning(false)
     }, 2000);
   } else {
+    set()
     setConfirmPost(true)
   }
 }
