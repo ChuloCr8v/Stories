@@ -1,0 +1,47 @@
+@import './Mixin.module.scss';
+
+.container {
+  @include flex;
+  width: min(90%, 80rem);
+  position: relative;
+}
+
+.wrapper,
+.form {
+  width: 100%;
+  @include flex;
+}
+
+
+.comment {
+  width: 100%;
+  min-height: 300px;
+  padding: 20px;
+  border: 1px solid gray;
+  outline: none;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  &:focus {
+    outline: none;
+    border: 2px solid red;
+  }
+}
+
+.btn_wrapper {
+  width: 100%;
+  @include flex;
+  flex-direction: row;
+  * + * {
+    margin-left: 10px;
+  }
+}
+
+.warning {
+  padding: 10px;
+  border-radius: 100px;
+  background: #fff;
+  text-align: center;
+  color: red;
+  position: absolute;
+box-shadow: 3px 3px 8px 2px rgb(0,0,0,0.2);
+}

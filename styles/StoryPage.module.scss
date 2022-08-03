@@ -1,5 +1,48 @@
+@import './Mixin.module.scss';
+
 .container {
+  @include flex;
   width: min(90%, 80rem);
   height: 100vh;
   padding: 100px 0;
+
+}
+
+.title {
+  font-size: 1.5em;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.poster {
+  text-align: center;
+  color: rgb(0, 0, 0, 0.5);
+  margin-top: -10px;
+}
+
+.content {
+  width: 100%;
+  border: 1px solid gray;
+  border-radius: 10px;
+  padding: 20px;
+  line-height: 2;
+}
+
+.reactions {
+  @include flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  * + * {
+    margin-left: 20px;
+  }
+}
+
+.comment_section {
+  background: #fff;
+  transition: all 0.3s ease-in-out;
+  position: fixed;
+  left: 0;
+  height: 100vh;
+  @include flex;
 }

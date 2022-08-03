@@ -29,6 +29,7 @@ const Story : FC <Props> = (props) => {
   const [loading, setLoading] = useState<any>(false)
   const [users, setUsers] = useState<any>([])
   const [user, setUser] = useState<any>('')
+  const [fullName, setFullName] = useState<any>('')
   const _user = auth.currentUser
   
   const getLikes = async () => {
@@ -44,7 +45,6 @@ const Story : FC <Props> = (props) => {
   }
   
   const getUser = () => {
-    
      const arr = []
      users.forEach((doc) => {
       arr.push(doc.data())
@@ -52,13 +52,13 @@ const Story : FC <Props> = (props) => {
      const filteredUser = arr.filter((user_) => user_.email.toLowerCase()  === _user.email.toLowerCase())
     filteredUser.map((filtered) => {
       setUser(filtered.username)
+      setFullName(filtered.fullName)
     })
   }
   
   useEffect(() => {
     fetchUsers(setUsers)
     getUser() 
-    console.log(444)
   }, [])
   
     setTimeout(() => {
@@ -72,7 +72,6 @@ const Story : FC <Props> = (props) => {
   
    const handleLike = async () => {
      getUser()
-    console.log(user)
     setLoading(true)
     try {
        const docRef = doc(db, "posts", `${props.postId}`);
@@ -105,6 +104,7 @@ const Story : FC <Props> = (props) => {
                     title: props.title,
                     story: props.story,
                     username: props.username,
+                    fullName: props.fullName,
                   },
                 }} 
       >

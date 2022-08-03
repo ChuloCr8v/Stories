@@ -55,4 +55,25 @@ const fetchUsers = async (setUsers) => {
     } 
 }
 
-export {sendPost, fetchApprovedStories, fetchUsers}
+//Make Comment
+
+const sendComment = async ({commentTitle, comment, username, fullName, postId, parentPostId, setShowWarning}) => {
+  console.log(fullName)
+  if(comment === ''){
+      setShowWarning(true)
+      setTimeout(() => {
+        setShowWarning(false)
+      }, 5000)
+      return
+  } 
+  try {
+      await setDoc(doc(db, "comments", 'comment'), {commentTitle, comment, username, timeStamp: Date.now(), likes: [], postId, parentPostId}, {merge: true} ); 
+    } catch(e) {
+      console.log(e)
+      alert(e)
+    }
+  }
+
+
+export {sendPost, fetchApprovedStories, fetchUsers, sendComment
+}

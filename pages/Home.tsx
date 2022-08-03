@@ -14,7 +14,6 @@ const Home : FC = () => {
   }
   return (
       <div className={styles.home}>
-        <TextEditor />
         <Button text="Sign Out" onClick={signout} />
       </div>
    ) 
