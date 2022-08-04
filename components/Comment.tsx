@@ -11,7 +11,7 @@ const Comment: FC <Props> = (props) => {
   return ( 
       <div className={styles.comment}>
         <h2 className={styles.comment_title}>{props.title}</h2>
-        <p className={styles.comment}>{props.comment}</p>
+        <p className={styles.comment_body}>{props.comment}</p>
         <div className={styles.btn_wrapper}>
           <Button text={'Like'} onClick={props.handleReply} />
           <Button text={'Reply'} onClick={props.handleReply} />
