@@ -10,7 +10,7 @@ interface Props {
 
 const Input :FC <Props> = (props) => {
   return(
-      <input className={styles.input} type={props.type} placeholder={props.placeholder} onChange={props.onChange} required={props.required} />
+      <input className={styles.input} type={props.type} placeholder={props.placeholder} onChange={props.onChange} required={props.required} value={props.value} />
     )
 }
 

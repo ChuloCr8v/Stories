@@ -56,7 +56,7 @@ interface Props {
     auth.onAuthStateChanged((_user) => {
       if (_user) {
         {setUser(_user)} 
-        {setLoading(false)} 
+        //setLoading(false)
       } else {
         {setUser(null)}
         {setLoading(false)} 

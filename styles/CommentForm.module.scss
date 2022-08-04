@@ -6,10 +6,15 @@
   position: relative;
 }
 
-.wrapper,
-.form {
-  width: 100%;
+.wrapper {
+  padding: 20px;
+  width: 100vw;
   @include flex;
+}
+
+.form {
+  @include flex;
+
 }
 
 
@@ -17,10 +22,11 @@
   width: 100%;
   min-height: 300px;
   padding: 20px;
-  border: 1px solid gray;
+  border: 2px solid gray;
   outline: none;
   border-radius: 10px;
   transition: all 0.3s ease;
+  margin: 20px 0;
   &:focus {
     outline: none;
     border: 2px solid red;
@@ -31,9 +37,7 @@
   width: 100%;
   @include flex;
   flex-direction: row;
-  * + * {
-    margin-left: 10px;
-  }
+  gap: 20px
 }
 
 .warning {
@@ -43,5 +47,5 @@
   text-align: center;
   color: red;
   position: absolute;
-box-shadow: 3px 3px 8px 2px rgb(0,0,0,0.2);
+  box-shadow: 3px 3px 8px 2px rgb(0,0,0,0.2);
 }
