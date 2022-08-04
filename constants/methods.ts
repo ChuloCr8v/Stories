@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import { doc, setDoc, collection, getDocs, getDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import { auth } from "./firebase";
@@ -17,7 +17,7 @@ interface Props {
   posterEmail: string;
 }
 
-const sendPost: FC<Props> = async ({
+const sendPost = async ({
   title,
   post,
   loading,
@@ -70,11 +70,11 @@ const sendPost: FC<Props> = async ({
   }
 };
 
-const fetchApprovedStories: FC<Props> = async (approvedStories, setLoading) => {
+const fetchApprovedStories = async (approvedStories: any[], setLoading: { (value: SetStateAction<boolean>): void; (arg0: boolean): void; }) => {
   setLoading(true);
   try {
     const querySnapshot = await getDocs(collection(db, "posts"));
-    querySnapshot.forEach((doc) => {
+    querySnapshot.forEach((doc: { data: () => any; }) => {
       {
         approvedStories.push(doc.data());
       }
@@ -85,7 +85,7 @@ const fetchApprovedStories: FC<Props> = async (approvedStories, setLoading) => {
   }
 };
 
-const fetchUsers = async (setUsers) => {
+const fetchUsers = async (setUsers: { (value: any): void; (arg0: any): void; }) => {
   try {
     const querySnapshot = await getDocs(collection(db, "users"));
     setUsers(querySnapshot);
@@ -94,9 +94,9 @@ const fetchUsers = async (setUsers) => {
   }
 };
 
-const fetchUser = async (setUser) => {
+const fetchUser = async (setUser: { (value: any): void; (value: any): void; (arg0: any): void; }) => {
   const querySnapshot = await getDocs(collection(db, "users"));
-  querySnapshot.forEach((doc) => {
+  querySnapshot.forEach((doc: { data: () => any; }) => {
     const user = auth.currentUser;
     const data = doc.data();
     Object.fromEntries(
@@ -151,19 +151,11 @@ const sendComment = async ({
   }
 };
 
-//Fetch comments
-const fetchComments = async (postComment) => {  
-  
-  try {
-    const querySnapshot = await getDocs(collection(db, "comments"));
-    querySnapshot.forEach((doc) => {
-      const res = doc.data()
-      postComment.push(res)
-    })
-  } catch(e) {
-    console.log(e)
-  }
- } 
 
-
-export { sendPost, fetchApprovedStories, fetchUsers, fetchUser, sendComment, fetchComments };
+export {
+  sendPost,
+  fetchApprovedStories,
+  fetchUsers,
+  fetchUser,
+  sendComment,
+};

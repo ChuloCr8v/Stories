@@ -1,17 +1,23 @@
 
+import { FC } from 'react';
 import styles from '../styles/Comments.module.scss'
-import {Comment} from './'
+import Comment from './Comment'
 
-const Comments : FC = (filteredComments) => { 
+interface Props {
+  postComment: any
+}
+
+const Comments : FC = (postComment: any) => { 
+  console.log(postComment)
   return ( 
       <section className={styles.comments}>
          {
-           filteredComments.map((filtered) => (
+           postComment.map((filtered: any) => (
               <Comment title={filtered.commentTitle} comment={filtered.comment} />
            ))
          } 
       </section>
     ); 
   }; 
-  
+   
 export default Comments 

@@ -1,27 +1,55 @@
-import { FC } from "react";
 import styles from "../styles/StoryPage.module.scss";
 import CommentForm from "../components/CommentForm";
 import { useState, useEffect } from "react";
-import { Button, Comments} from "../components";
-import { sendComment, fetchUser, fetchComments } from "../constants/methods";
+import Comments from "../components/Comments";
+import Button from "../components/Button";
+import { sendComment, fetchUser } from "../constants/methods";
+import firebase from "firebase/compat/app";
+import Comment from "../components/Comment";
 
-const Story: FC<Props> = (props) => {
+interface Props {
+  postId: number;
+  title: string;
+  story: string;
+  username: string;
+}
+
+const Story = (props: {
+  title: string;
+  username: string;
+  story: string;
+  postId: any;
+}) => {
   const [showCommentBox, setShowCommentBox] = useState<boolean>(false);
-  const [user, setUser] = useState<string>("");
+  const [user, setUser] = useState<any>("");
   const [commentTitle, setCommentTitle] = useState<string>("");
-  const [comment, setComment] = useState<string>('');
+  const [comment, setComment] = useState<string>("");
   const [showWarning, setShowWarning] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [postComment, setPostComment] = useState<any>([])
-  const [filteredComments, setFilteredComments] = useState<any>([])
- 
+  const [postComment, setPostComment] = useState<any>([]);
+  const [filteredComments, setFilteredComments] = useState<any>([]);
+
   const parentPostId = props.postId;
   const username = user.username;
   const fullName = user.fullName;
-  
+
+  //Fetch comments
+  const fetchComments = async () => {
+    try {
+      const posts = await firebase
+        .firestore()
+        .collection("comments")
+        .where("parentPostId", "==", parentPostId)
+        .get();
+      setPostComment([...posts.docs]);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
+    fetchComments();
     fetchUser(setUser);
-    fetchComments(postComment)
   }, []);
 
   const confirmSendComment = () => {
@@ -48,42 +76,30 @@ const Story: FC<Props> = (props) => {
         setShowCommentBox,
       });
     }, 3000);
-  }; 
-  
-  const getComments = async () => {
-    try {
-     const data = await postComment.filter((data) => data.parentPostId === parentPostId) 
-     const filterData = data.map(_data => {
-     return _data
-     })
-     setFilteredComments(filterData)
-     console.log(filteredComments) 
-    } catch(e) {
-      console.log(e)
-    }
-  }
-    
-useEffect(() => {
- getComments()
-}, [])
+  };
 
-return (
-  <div className={styles.container}>
-    <div className={styles.title_wrapper}>
-      <h2 className={styles.title}>{props.title}</h2>
-      <p className={styles.poster}>By {props.username}</p>
-    </div>
-    <p className={styles.content}>{props.story}</p>
-    <div className={styles.reactions}>
-      <Button text={"Like"} onClick={() => console.log("liked")} />
-      <Button
-        text={"Comment"}
-        onClick={() => setShowCommentBox(!showCommentBox)}
-      />
-    </div>
-    <div className={styles.comments_wrapper} >
-     {filteredComments.length < 1 ? 'Loading' : <Comments filteredComments={filteredComments} /> } 
-   
+  return (
+    <div className={styles.container}>
+      <div className={styles.title_wrapper}>
+        <h2 className={styles.title}>{props.title}</h2>
+        <p className={styles.poster}>By {props.username}</p>
+      </div>
+      <p className={styles.content}>{props.story}</p>
+      <div className={styles.reactions}>
+        <Button text={"Like"} onClick={() => console.log("liked")} />
+        <Button
+          text={"Comment"}
+          onClick={() => setShowCommentBox(!showCommentBox)}
+        />
+      </div>
+      <div className={styles.comments_wrapper}></div>
+      <div className={styles.comment_wrapper}>
+        {postComment.map((comm) => (
+          <Comment
+            title={comm.data().commentTitle}
+            comment={comm.data().comment}
+          />
+        ))}
       </div>
       <div
         className={styles.comment_section}
@@ -91,7 +107,6 @@ return (
       >
         <CommentForm
           onChange={(e) => setComment(e.target.value)}
-          sendComment={() => confirmSendComment}
           comment={comment}
           commentTitle={commentTitle}
           showCommentBox={showCommentBox}
@@ -107,7 +122,6 @@ return (
           commentPlaceholder={"Leave your comment..."}
         />
       </div>
-     
     </div>
   );
 };

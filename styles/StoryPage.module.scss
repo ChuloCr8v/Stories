@@ -1,11 +1,10 @@
-@import './Mixin.module.scss';
+@import "./Mixin.module.scss";
 
 .container {
   @include flex;
   width: min(90%, 80rem);
-  height: 100vh;
+  min-height: 100vh;
   padding: 100px 0;
-
 }
 
 .title {
@@ -45,4 +44,9 @@
   left: 0;
   height: 100vh;
   @include flex;
+}
+
+.comment_wrapper {
+  width: 100%;
+  margin-top: 100px;
 }

@@ -3,17 +3,14 @@ import styles from '../styles/LatestPost.module.scss'
 import Story from '../components/Story'
 import {fetchApprovedStories} from '../constants/methods'
 import Loading from '../components/Loading'
-import {auth, db} from '../constants/firebase'
-import firebase from "firebase/compat/app";
-import { getFirestore, arrayRemove, arrayUnion, deleteField, writeBatch, doc, updateDoc, getDoc } from "firebase/firestore"; 
 
 const LatestStories :FC = () => {
   const [approvedStories, setApprovedStories] = useState<[]>([])
   const [loading, setLoading] = useState<boolean>(false)
  
-  useState(() => {
+  useEffect(() => {
      fetchApprovedStories(approvedStories, setLoading) 
-  }, [approvedStories])
+  }, [])
   
  
   return (

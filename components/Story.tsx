@@ -9,6 +9,7 @@ import Link from 'next/link'
 import Spinner from './Spinner'
 
 interface Props {
+  fullName: any;
   title: string 
   story: string
   posterName: string
