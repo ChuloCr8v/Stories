@@ -6,7 +6,10 @@ import Button from "../components/Button";
 import { sendComment, fetchUser } from "../constants/methods";
 import firebase from "firebase/compat/app";
 import Comment from "../components/Comment";
-import {FaThumbsUp, FaCommentAlt} from 'react-icons/fa'
+import { FaThumbsUp, FaCommentAlt } from "react-icons/fa";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../constants/firebase";
+
 interface Props {
   postId: number;
   title: string;
@@ -24,6 +27,7 @@ const Story = (props: {
   const [user, setUser] = useState<any>("");
   const [commentTitle, setCommentTitle] = useState<string>("");
   const [comment, setComment] = useState<string>("");
+  const [comments, setComments] = useState<string>("");
   const [showWarning, setShowWarning] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [postComment, setPostComment] = useState<any>([]);
@@ -33,28 +37,24 @@ const Story = (props: {
   const parentPostId = props.postId;
   const username = user.username;
   const fullName = user.fullName;
-  
-  //Fetch likes 
-  
-  const fetchLikes = async () => {
-     try {
-      const likeCount = await firebase
-        .firestore()
-        .collection("posts")
-        .where("postId", "==", `${props.postId}`)
-        .get();
-      setLikes(likeCount);
-      const dar = likes.docs().forEach((e) => {
-        e
-      })
-      
-      console.log(dar)
-    } catch (e) {
-      console.log(e);
-      alert(e);
+
+  //Fetch likes
+
+  const getLikes = async () => {
+    const docRef = doc(db, "posts", `${props.postId}`);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      setLikes(docSnap.data().likes);
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
     }
-  } 
- 
+  };
+
+  useEffect(() => {
+    getLikes();
+  }, []);
+
   //Fetch comments
   const fetchComments = async () => {
     try {
@@ -99,11 +99,7 @@ const Story = (props: {
       });
     }, 3000);
   };
-  
-  useEffect(() => {
-    fetchLikes()
-  }, [])
-  
+
   return (
     <div className={styles.container}>
       <div className={styles.title_wrapper}>
@@ -114,7 +110,16 @@ const Story = (props: {
         <div className={styles.story_wrapper}>
           <p className={styles.content}>{props.story}</p>
         </div>
-        <p> <FaThumbsUp /> {likes.length} likes </p>
+        <div className={styles.stats_wrapper}>
+          <p>
+            {" "}
+            <FaThumbsUp /> {likes.length} likes{" "}
+          </p>
+          <p>
+            {" "}
+            <FaCommentAlt /> {postComment.length} comments{" "}
+          </p>
+        </div>
       </div>
       <div className={styles.reactions}>
         <div className={styles.reaction}>
