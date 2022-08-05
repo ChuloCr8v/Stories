@@ -99,7 +99,6 @@ const Story = (props: {
         fetchComments
       });
     }, 3000);
-    alert(100)
   };
   
   const handleLike = async () => {

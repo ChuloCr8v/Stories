@@ -19,15 +19,21 @@
   margin-top: -10px;
 }
 
+.story_wrapper,
+.story_container {
+  width: 100%;
+}
+
 .content {
   width: 100%;
   line-height: 2;
 }
 
 .stats_wrapper {
+  display: grid;
   @include flex;
   flex-direction: row;
-  justify-content: space-between
+  justify-content: space-between;
 }
 
 .stat {
@@ -73,8 +79,7 @@
 }
 
 .comment_wrapper {
-  padding: 10px;
-  border: 1px solid gray;
+  padding: 10px 0;
   border-radius: 20px;
   width: 100%;
   margin-top: 100px;
