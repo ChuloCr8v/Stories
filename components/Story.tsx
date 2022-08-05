@@ -69,7 +69,7 @@ const Story : FC <Props> = (props) => {
   useEffect(() => {
     getLikes()
   }, [])
-  
+ 
   
    const handleLike = async () => {
      getUser()
@@ -106,6 +106,7 @@ const Story : FC <Props> = (props) => {
                     story: props.story,
                     username: props.username,
                     fullName: props.fullName,
+                    likes: props.likes,
                   },
                 }} 
       >

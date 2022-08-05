@@ -6,7 +6,7 @@ import Button from "../components/Button";
 import { sendComment, fetchUser } from "../constants/methods";
 import firebase from "firebase/compat/app";
 import Comment from "../components/Comment";
-
+import {FaThumbsUp, FaCommentAlt} from 'react-icons/fa'
 interface Props {
   postId: number;
   title: string;
@@ -28,11 +28,33 @@ const Story = (props: {
   const [loading, setLoading] = useState<boolean>(false);
   const [postComment, setPostComment] = useState<any>([]);
   const [filteredComments, setFilteredComments] = useState<any>([]);
+  const [likes, setLikes] = useState<any>([]);
 
   const parentPostId = props.postId;
   const username = user.username;
   const fullName = user.fullName;
-
+  
+  //Fetch likes 
+  
+  const fetchLikes = async () => {
+     try {
+      const likeCount = await firebase
+        .firestore()
+        .collection("posts")
+        .where("postId", "==", `${props.postId}`)
+        .get();
+      setLikes(likeCount);
+      const dar = likes.docs().forEach((e) => {
+        e
+      })
+      
+      console.log(dar)
+    } catch (e) {
+      console.log(e);
+      alert(e);
+    }
+  } 
+ 
   //Fetch comments
   const fetchComments = async () => {
     try {
@@ -77,20 +99,30 @@ const Story = (props: {
       });
     }, 3000);
   };
-
+  
+  useEffect(() => {
+    fetchLikes()
+  }, [])
+  
   return (
     <div className={styles.container}>
       <div className={styles.title_wrapper}>
         <h2 className={styles.title}>{props.title}</h2>
         <p className={styles.poster}>By {props.username}</p>
       </div>
-      <p className={styles.content}>{props.story}</p>
+      <div className={styles.story_container}>
+        <div className={styles.story_wrapper}>
+          <p className={styles.content}>{props.story}</p>
+        </div>
+        <p> <FaThumbsUp /> {likes.length} likes </p>
+      </div>
       <div className={styles.reactions}>
-        <Button text={"Like"} onClick={() => console.log("liked")} />
-        <Button
-          text={"Comment"}
-          onClick={() => setShowCommentBox(!showCommentBox)}
-        />
+        <div className={styles.reaction}>
+          <FaThumbsUp className={styles.icon} />
+        </div>
+        <div className={styles.reaction}>
+          <FaCommentAlt className={styles.icon} />
+        </div>
       </div>
       <div className={styles.comments_wrapper}></div>
       <div className={styles.comment_wrapper}>
@@ -138,6 +170,7 @@ export async function getServerSideProps(context) {
       username: context.query.username,
       story: context.query.story,
       postId: context.query.id,
+      likes: context.query.likes,
       //pass it to the page props
     },
   };
