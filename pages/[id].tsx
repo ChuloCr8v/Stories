@@ -7,8 +7,9 @@ import { sendComment, fetchUser } from "../constants/methods";
 import firebase from "firebase/compat/app";
 import Comment from "../components/Comment";
 import { FaThumbsUp, FaCommentAlt } from "react-icons/fa";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../constants/firebase";
+import Spinner from "../components/Spinner";
 
 interface Props {
   postId: number;
@@ -96,24 +97,41 @@ const Story = (props: {
         fullName,
         setLoading,
         setShowCommentBox,
-        fetchComments
+        fetchComments,
       });
     }, 3000);
   };
-  
+
   const handleLike = async () => {
-     try {
-      const posts = await firebase
-        .firestore()
-        .collection("posts")
-        .where("postId", "==", props.postId)
-        .get();
-       const post = posts.map((post) => post)
-      console.log(posts);
+    try {
+      setLoading(true);
+      const docRef = doc(db, "posts", parentPostId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (docSnap.data().likes.includes(username)) {
+          await updateDoc(docRef, {
+            likes: firebase.firestore.FieldValue.arrayRemove(`${username}`),
+          });
+          getLikes();
+        } else {
+          await updateDoc(docRef, {
+            likes: firebase.firestore.FieldValue.arrayUnion(`${username}`),
+          });
+          getLikes();
+        }
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+      setLoading(false);
     } catch (e) {
       console.log(e);
+      setLoading(false);
+      alert("unable to process your like at the moment. Give it another try");
     }
-  } 
+  };
 
   return (
     <div className={styles.container}>
@@ -126,34 +144,53 @@ const Story = (props: {
           <p className={styles.content}>{props.story}</p>
         </div>
         <div className={styles.stats_wrapper}>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <p className={styles.stat}>
+              {" "}
+              <FaThumbsUp
+                style={{
+                  color: likes.includes(username) ? "#000" : "lightgray",
+                }}
+              />
+              <span>
+                {likes.length} like{likes.length > 1 ? "s" : ""}{" "}
+              </span>
+            </p>
+          )}
           <p className={styles.stat}>
             {" "}
-            <FaThumbsUp /> 
-            <span>{likes.length} like {" "}</span>
-          </p>
-          <p className={styles.stat}>
-            {" "}
-            <FaCommentAlt /> <span>{postComment.length} comments{" "}</span>
+            <FaCommentAlt /> <span>{postComment.length} comments </span>
           </p>
         </div>
       </div>
       <div className={styles.reactions}>
-        <div className={styles.reaction} onClick={handleLike} >
+        <div className={styles.reaction} onClick={handleLike}>
           <FaThumbsUp className={styles.icon} />
         </div>
-        <div onClick={() => setShowCommentBox(true)} className={styles.reaction}>
+        <div
+          onClick={() => setShowCommentBox(true)}
+          className={styles.reaction}
+        >
           <FaCommentAlt className={styles.icon} />
         </div>
       </div>
-      <div className={styles.comments_wrapper}></div>
-      <div className={styles.comment_wrapper}>
-        {postComment.map((comm) => (
-          <Comment
-            title={comm.data().commentTitle}
-            comment={comm.data().comment}
-          />
-        ))}
-      </div>
+      <div className={styles.comments_container}></div>
+      {`${postComment}`.length < 1 ? (
+        "Be the first to comment on this post"
+      ) : (
+        <div className={styles.comment_wrapper}>
+          {postComment.map((comm) => (
+            <Comment
+              title={comm.data().commentTitle}
+              comment={comm.data().comment}
+              commenterName={comm.data().fullName}
+              timeStamp={comm.data().timeStamp}
+            />
+          ))}
+        </div>
+      )}
       <div
         className={styles.comment_section}
         style={{ top: !showCommentBox ? "300%" : "0" }}
