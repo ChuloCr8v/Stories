@@ -123,6 +123,7 @@ const sendComment = async ({
   setShowWarning,
   setLoading,
   setShowCommentBox,
+   fetchComments
 }) => {
   try {
     const postId = Date.now();
@@ -144,6 +145,7 @@ const sendComment = async ({
     setComment("");
     setLoading(false);
     setShowCommentBox(false);
+    fetchComments()
   } catch (e) {
     console.log(e);
     alert(e);

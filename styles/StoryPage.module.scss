@@ -21,7 +21,6 @@
 
 .content {
   width: 100%;
-  
   line-height: 2;
 }
 
@@ -29,6 +28,15 @@
   @include flex;
   flex-direction: row;
   justify-content: space-between
+}
+
+.stat {
+  @include flex;
+  flex-direction: row;
+  align-items: center;
+  span {
+    margin-left: 10px;
+  }
 }
 
 .reactions {
@@ -41,6 +49,19 @@
   }
 }
 
+.reaction {
+  @include flex;
+  border: 1px gray solid;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  transition: all 0.3s;
+  &:hover {
+    background: #000;
+    color: white;
+  }
+}
+
 .comment_section {
   background: #fff;
   transition: all 0.3s ease-in-out;
@@ -48,6 +69,7 @@
   left: 0;
   height: 100vh;
   @include flex;
+  transition: all .3s ease-in-out;
 }
 
 .comment_wrapper {
@@ -56,16 +78,4 @@
   border-radius: 20px;
   width: 100%;
   margin-top: 100px;
-}
-
-.reaction {
-  @include flex;
-  border: 1px gray solid;
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  &:hover {
-    background: #000;
-    color: white;
-  }
 }

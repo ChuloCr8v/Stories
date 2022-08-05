@@ -96,9 +96,25 @@ const Story = (props: {
         fullName,
         setLoading,
         setShowCommentBox,
+        fetchComments
       });
     }, 3000);
+    alert(100)
   };
+  
+  const handleLike = async () => {
+     try {
+      const posts = await firebase
+        .firestore()
+        .collection("posts")
+        .where("postId", "==", props.postId)
+        .get();
+       const post = posts.map((post) => post)
+      console.log(posts);
+    } catch (e) {
+      console.log(e);
+    }
+  } 
 
   return (
     <div className={styles.container}>
@@ -111,21 +127,22 @@ const Story = (props: {
           <p className={styles.content}>{props.story}</p>
         </div>
         <div className={styles.stats_wrapper}>
-          <p>
+          <p className={styles.stat}>
             {" "}
-            <FaThumbsUp /> {likes.length} likes{" "}
+            <FaThumbsUp /> 
+            <span>{likes.length} like {" "}</span>
           </p>
-          <p>
+          <p className={styles.stat}>
             {" "}
-            <FaCommentAlt /> {postComment.length} comments{" "}
+            <FaCommentAlt /> <span>{postComment.length} comments{" "}</span>
           </p>
         </div>
       </div>
       <div className={styles.reactions}>
-        <div className={styles.reaction}>
+        <div className={styles.reaction} onClick={handleLike} >
           <FaThumbsUp className={styles.icon} />
         </div>
-        <div className={styles.reaction}>
+        <div onClick={() => setShowCommentBox(true)} className={styles.reaction}>
           <FaCommentAlt className={styles.icon} />
         </div>
       </div>
@@ -140,7 +157,7 @@ const Story = (props: {
       </div>
       <div
         className={styles.comment_section}
-        style={{ top: !showCommentBox ? "100%" : "0" }}
+        style={{ top: !showCommentBox ? "300%" : "0" }}
       >
         <CommentForm
           onChange={(e) => setComment(e.target.value)}
