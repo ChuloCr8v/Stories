@@ -183,10 +183,13 @@ const Story = (props: {
         <div className={styles.comment_wrapper}>
           {postComment.map((comm) => (
             <Comment
+              postTitle={props.title}
               title={comm.data().commentTitle}
               comment={comm.data().comment}
               commenterName={comm.data().fullName}
               timeStamp={comm.data().timeStamp}
+              likes = {comm.data().likes} 
+              postId = {comm.data().postId} 
             />
           ))}
         </div>

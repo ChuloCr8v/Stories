@@ -2,15 +2,87 @@
 
 .comment {
   border: 1px solid gray ;
-  border-radius: 20px;
+  border-radius: 8px;
   padding: 10px;
   margin-top: 25px;
 }
 
-.btn_wrapper {
+.post_title {
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.commenter_details {
+  border-bottom: 1px gray solid ;
+}
+
+.commenter_name_wrapper {
   @include flex;
   flex-direction: row;
+  justify-content: flex-start;
+  margin-top: -30px;
   * + * {
     margin-left: 20px;
   }
+}
+
+.commenter_name,
+.time {
+  color: gray;
+  text-transform: capitalize;
+  font-size: 1.1em;
+}
+
+.time {
+  font-size: .95em;
+}
+
+.comment_title {
+  font-size: 1.2em;
+}
+
+.comment_body {
+  padding-left: 10px;
+  font-size: 1.2em;
+  border-left: 5px solid #000 ;
+}
+
+.reactions_wrapper {
+  @include flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  * + * {
+    margin-left: 20px;
+  }
+}
+
+.input_wrapper {
+  flex-basis: 100%;
+}
+
+.likes_wrapper {
+  flex-basis: 50%;
+  @include flex;
+  flex-direction: row;
+  border-left: 1px solid gray ;
+  padding-bottom: 4px;
+  border-bottom: 1px gray solid ;
+}
+
+.reply_input {
+  border: none;
+  border-bottom: 1px gray solid;
+  padding: 4px 0;
+  padding-right: 30px;
+  transition: all 0.3s;
+  width: 100%;
+  &:focus {
+    outline: none;
+    border-color: red;
+  }
+}
+
+.send_icon {
+  background: #fff;
+  margin-left: -20px;
 }
