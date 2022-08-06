@@ -70,13 +70,14 @@ const sendPost = async ({
   }
 };
 
-const fetchApprovedStories = async (approvedStories: any[], setLoading: { (value: SetStateAction<boolean>): void; (arg0: boolean): void; }) => {
+const fetchApprovedStories = async ({approvedStories, setApprovedStories, setLoading}) => {
   setLoading(true);
   try {
     const querySnapshot = await getDocs(collection(db, "posts"));
     querySnapshot.forEach((doc: { data: () => any; }) => {
       {
-        approvedStories.push(doc.data());
+        setApprovedStories(doc.data());
+        console.log(approvedStories)
       }
       setLoading(false);
     });

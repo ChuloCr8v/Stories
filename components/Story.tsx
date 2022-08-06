@@ -18,17 +18,16 @@ import Link from "next/link";
 import Spinner from "./Spinner";
 
 interface Props {
-  fullName: any;
   title: string;
   story: string;
   posterName: string;
+  posterEmail: string;
   username: string;
-  likes: any;
   views: any;
   postId: number;
-  fetchApprovedStories: () => void;
-  setApprovedStories: () => void;
-  approvedStories: () => void;
+  comments: any;
+  setApprovedStories: any;
+  approvedStories: any;
 }
 
 const Story: FC<Props> = (props) => {
@@ -142,7 +141,7 @@ const Story: FC<Props> = (props) => {
           ) : (
             <p className={styles.likers}>
               {likes.length > 1
-                ? `${likes.slice(-1)} and ${likes.length - 1} others`
+                ? `${likes.slice(-1)} and ${likes.length - 1} others `
                 : likes}{" "}
             </p>
           )}
@@ -157,3 +156,4 @@ const Story: FC<Props> = (props) => {
 };
 
 export default Story;
+   

@@ -46,6 +46,10 @@
 
 #like_icon {
   transition: all 0.3s ease;
+  &:hover {
+    transform: scale(1.5) rotate(-10deg);
+    color: blue !important;
+  }
 }
 
 .likers {

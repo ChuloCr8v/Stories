@@ -1,32 +1,61 @@
-import {FC, useState, useEffect} from 'react'
-import styles from '../styles/LatestPost.module.scss'
-import Story from '../components/Story'
-import {fetchApprovedStories} from '../constants/methods'
-import Loading from '../components/Loading'
+import { FC, useState, useEffect } from "react";
+import styles from "../styles/LatestPost.module.scss";
+import Story from "../components/Story";
+import { fetchApprovedStories } from "../constants/methods";
+import Loading from "../components/Loading";
+import { doc, setDoc, collection, getDocs, getDoc } from "firebase/firestore";
+import { db } from "../constants/firebase";
 
-const LatestStories :FC = () => {
-  const [approvedStories, setApprovedStories] = useState<[]>([])
-  const [loading, setLoading] = useState<boolean>(false)
- 
+const LatestStories: FC = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [approvedPosts, setApprovedPosts] = useState<any>([]);
+
+  const fetchApprovedStories = async () => {
+    setLoading(true);
+    try {
+      const querySnapshot = await getDocs(collection(db, "posts"));
+      const posts = [];
+      querySnapshot.forEach((doc) => {
+        posts.push(doc);
+      });
+      setApprovedPosts(posts);
+      setLoading(false);
+    } catch (e) {
+      console.log(e);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-     fetchApprovedStories(approvedStories, setLoading) 
-  }, [])
-  
- 
-  return (
-     <div className={styles.container}>
-       <div className={styles.wrapper}>
-        {!loading ? (<div>
-           {approvedStories.map((story) => (
-         
-             <Story title={story.title} story={story.post} username={story.username} posterName={story.posterName} likes={story.likes} views={story.views} postId={story.postId} posterEmail={story.posterEmail} posterName={story.posterName} postId={story.postId} approvedStories={approvedStories} setApprovedStories={setApprovedStories}  likes={story.likes} 
-             comments={story.comments}
-             />
-           ))}
-         </div>) : <Loading />} 
-       </div>
-     </div>
-    )
-}
+    fetchApprovedStories();
+  }, []);
 
-export default LatestStories 
+  return (
+    <div className={styles.container}>
+      <div className={styles.wrapper}>
+        {!loading ? (
+          <div>
+            {approvedPosts.map((story: any) => (
+              <Story
+                title={story.data().title}
+                story={story.data().post}
+                username={story.data().username}
+                posterName={story.data().posterName}
+                views={story.data().views}
+                postId={story.data().postId}
+                posterEmail={story.data().posterEmail}
+                approvedStories={approvedPosts}
+                setApprovedStories={setApprovedPosts}
+                comments={story.data().comments}
+              />
+            ))}
+          </div>
+        ) : (
+          <Loading title={"Getting New Posts"} />
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default LatestStories;

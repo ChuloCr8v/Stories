@@ -222,6 +222,7 @@ const Story = (props: {
 export default Story;
 
 export async function getServerSideProps(context) {
+  console.log(context.query)
   // returns { id: episode.itunes.episode, title: episode.title}
   //you can make DB queries using the data in context.query
   return {
@@ -231,7 +232,6 @@ export async function getServerSideProps(context) {
       username: context.query.username,
       story: context.query.story,
       postId: context.query.id,
-      likes: context.query.likes,
       //pass it to the page props
     },
   };
