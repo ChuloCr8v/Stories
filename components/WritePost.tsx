@@ -40,9 +40,13 @@ const confirmNewPost = (title, post) => {
 }
 
 const confirm = async () => {
+  if(username && posterName && posterEmail ){
   sendPost({
     title, post, loading, setLoading, setConfirmPost, setTitle, setPost, postId, posterName, posterEmail, username
   })
+  } else {
+    alert('try again')
+  }
 
 }
 

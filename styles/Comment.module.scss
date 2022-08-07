@@ -81,6 +81,7 @@
   padding-right: 30px;
   transition: all 0.3s;
   width: 100%;
+  word-break: break-all;
   &:focus {
     outline: none;
     border-color: red;

@@ -19,7 +19,6 @@ const Comment: FC<Props> = (props) => {
   const [user, setUser] = useState<any>([]);
 
   const postId = props.postId;
-
   const getLikes = async () => {
     const docRef = doc(db, "comments", `${postId}`);
     const docSnap = await getDoc(docRef);
@@ -34,20 +33,21 @@ const Comment: FC<Props> = (props) => {
 
   useEffect(() => {
     getLikes();
+    fetchUser(setUser)
   }, []);
-console.log(postId)
+  
   const handleLike = async () => {
+    if(user.username === undefined){
+      alert('no user')
+    return
+    }
     fetchUser(setUser);
-    console.log(user.username);
-    console.log(`${props.postId}`)
     try {
       setLoading(true);
       const docRef = doc(db, "comments", `${postId}`);
       const docSnap = await getDoc(docRef);
-      console.log(docSnap);
       if (docSnap.exists()) {
         const data = docSnap.data();
-        console.log(data);
         if (docSnap.data().likes.includes(`${user.username}`)) {
           await updateDoc(docRef, {
             likes: firebase.firestore.FieldValue.arrayRemove(
@@ -70,7 +70,6 @@ console.log(postId)
       console.log(e);
       setLoading(false);
       alert("unable to process your like at the moment. Give it another try");
-      alert(e);
     }
   };
 
@@ -100,7 +99,7 @@ console.log(postId)
           <Spinner />
         ) : (
           <div className={styles.likes_wrapper}>
-            <FaThumbsUp onClick={handleLike} className={styles.likel_icon} />
+            <FaThumbsUp onClick={handleLike} className={styles.likel_icon} style={{color: likes.includes(user.username) ? '#000' : 'lightgray'}} />
             <span> {likes.length} likes</span>
           </div>
         )}
