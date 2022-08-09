@@ -50,6 +50,7 @@
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  margin-bottom: 100px;
   * + * {
     margin-left: 20px;
   }
@@ -76,10 +77,6 @@
   height: 100vh;
   @include flex;
   transition: all .3s ease-in-out;
-}
-
-.comment_container {
-  margin-top: 50px;
 }
 
 .comment_wrapper {

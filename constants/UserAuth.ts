@@ -21,15 +21,15 @@ interface Props {
  const signup: FC <Props> = async (fullName, email, username, password, setShowWarning, setShowToast, setUser, doc, setDoc, db, setLoading) => {
     setShowWarning(false)
     setShowToast(false)
-    
     if (fullName && email && password && username) {
+      setLoading(true)
       try {
-        
         const querySnapshot = await getDocs(collection(db, 'users'))
         querySnapshot.forEach((doc) => {
             const result = doc.data().username === username
             if(result){
-              alert(`${username} already exists`)
+              alert(`username ${username} already exists. Try new username`)
+              setLoading(false)
             }
             return
         })
@@ -37,13 +37,23 @@ interface Props {
     const res = await auth.createUserWithEmailAndPassword(email, password);
     const _user = res.user;
     setUser(_user)
-    setShowToast(true)
     await setDoc(doc(db, "users", `${_user.uid}`), {fullName, email, username, password
     }, {merge: true} ); 
-    Router.push('/MainNav')
+    setLoading(false)
+    setShowToast(true) 
+    setTimeout(() => {
+      setShowToast(false)
+      //Router.push('/Login')
+    }, 2000)
   } catch (err) {
     console.error(err);
     setShowToast(true)
+     setShowToast(true) 
+    setTimeout(() => {
+      setShowToast(false)
+      //Router.push('/Login')
+    }, 3000)
+    setLoading(false)
   } 
     } else {
       setShowWarning(true)

@@ -185,6 +185,7 @@ const Story = (props: {
             <Comment
               postTitle={props.title}
               title={comm.data().commentTitle}
+              username={comm.data().username}
               comment={comm.data().comment}
               commenterName={comm.data().fullName}
               timeStamp={comm.data().timeStamp}

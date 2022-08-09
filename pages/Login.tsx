@@ -32,6 +32,7 @@ const Login: FC = (props) => {
         setTimeout(() => {
          setShowToast(false);
         }, 3000);
+        alert(err)
         setLoading(false);
       }
     } else {

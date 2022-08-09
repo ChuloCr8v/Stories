@@ -7,6 +7,7 @@ import {FaTimes, FaCheck, FaBomb} from 'react-icons/fa'
 import Link from 'next/link'
 import { doc, setDoc } from "firebase/firestore"; 
 import {signup, authenticatedUser} from '../constants/UserAuth'
+import Spinner from '../components/Spinner'
 
 const Signup :FC = (props) => {
   
@@ -17,11 +18,15 @@ const Signup :FC = (props) => {
   const [user, setUser] = useState<any>(null)
   const [showToast, setShowToast] = useState<boolean>(false)
   const [showWarning, setShowWarning] = useState<boolean>(false)
-  const [showLoading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  
+  const confirmSignup = () => {
+     signup(fullName, email, username, password, setShowWarning, setShowToast, setUser, doc, setDoc, db, setLoading)
+  }
   
   return(
-    <div className={styles.container} >
-    {showToast ? <Toast msg={user ? "You have signed up successfully" : "error, unable to sign you up. Please try one more time"} closeIcon=<FaTimes className={styles.close_icon} onClick={() => setShowToast(false)} /> icon={user ? <FaCheck className={styles.icon} /> : <FaTimes className={styles.icon} />}  /> : ''} 
+  <div className={styles.container} >
+     {showToast ? <Toast msg={user ? "You have signed up successfully" : "error, unable to sign you up. Please try one more time"} closeIcon=<FaTimes className={styles.close_icon} onClick={() => setShowToast(false)} /> icon={user ? <FaCheck className={styles.icon} /> : <FaTimes className={styles.icon} />}  /> : ''} 
       {showWarning ? <Toast msg={"Please Fill In All Credentials!"} icon={<FaBomb className={styles.icon} />} closeIcon={<FaTimes className={styles.close_icon} onClick={() => setShowWarning(false)} />} /> : ''}  
       <div className={styles.wrapper}> 
       <div className={styles.form} >
@@ -41,7 +46,9 @@ const Signup :FC = (props) => {
         <label htmlFor="password">Password</label>
         <Input placeholder={"Choose Password"} type={"password"} onChange={(e) => setPassword(e.target.value)} value={password} />
        </div>
-       <Button text={"Signup"} onClick={() => signup(fullName, email, username, password, setShowWarning, setShowToast, setUser, doc, setDoc, db, setLoading)} />
+       <div className={styles.btn_wrapper}>
+         {loading ? <Spinner /> : <Button text={"Signup"} onClick={confirmSignup} />} 
+       </div>
        <p className={styles.login_url}>Have an account? <span><Link href="/Login"><a className={styles.url}>Login here </a></Link></span></p>
       </div>
     </div>

@@ -1,14 +1,20 @@
-import {FC} from 'react'
+import {FC, useState, useEffect } from 'react'
 import styles from '../styles/Header.module.scss'
 import {FaBars, FaUser} from 'react-icons/fa'
 import Link from 'next/link'
+import {auth} from '../constants/firebase'
 
 interface Props {
   setShowMenu: () => void 
 }
 const Header: FC <Props> = (props) => {
+  const [user, setUser] = useState<any>(null)
+  
+   const getUser = auth.currentUser
+  
+  
   return (
-      <header className={styles.header}>
+      <header className={styles.header} style={{position: 'fixed', left: 0, top: getUser ? 0 : '-300%'}} >
         <div className={styles.container}>
           <div className={styles.wrapper}>
             <Link href="/" >

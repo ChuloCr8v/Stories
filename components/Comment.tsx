@@ -5,20 +5,27 @@ import { useState, useEffect } from "react";
 import { FaPaperPlane, FaThumbsUp } from "react-icons/fa";
 import Spinner from "./Spinner";
 import { fetchUser } from "../constants/methods";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, addDoc, query, where, getDocs, collection } from "firebase/firestore";
 import { db } from "../constants/firebase";
 import firebase from "firebase/compat/app";
+import { auth } from "../constants/firebase";
+import Reply from './Reply'
+
 interface Props {
   title: string;
   comment: string;
   handleReply: () => void;
 }
+
 const Comment: FC<Props> = (props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [likes, setLikes] = useState<any>([]);
   const [user, setUser] = useState<any>([]);
+  const [reply, setReply] = useState<any>('');
+  const [replyArray, setReplyArray] = useState<any>([]);
 
   const postId = props.postId;
+  
   const getLikes = async () => {
     const docRef = doc(db, "comments", `${postId}`);
     const docSnap = await getDoc(docRef);
@@ -37,6 +44,8 @@ const Comment: FC<Props> = (props) => {
   }, []);
   
   const handleLike = async () => {
+    const us = auth.currentUser 
+    alert(200, us)
     if(user.username === undefined){
       alert('no user')
     return
@@ -72,7 +81,54 @@ const Comment: FC<Props> = (props) => {
       alert("unable to process your like at the moment. Give it another try");
     }
   };
+  
+  const handleReply = async () => {
+    if(reply === ''){
+      alert('Reply cant be empty')
+      return
+    }
+    const replyId = Date.now()
+    const replyData =  {
+       reply,
+       replyId, 
+       replyUsername: user.username, 
+       parentCommentId: postId, 
+       parentCommentUsername: props.username, 
+       timeStamp: Date.now(), 
+       likes: [], 
+    }
+    try {
+       await addDoc(collection(db, "replies"), replyData);
+       alert('Reply Sent')
+       fetchReply()
+    } catch (e) {
+      console.log(e)
+      alert(e)
+    }
+  }
+  
+  
+  const fetchReply = async () => {
+    try {
+      const q = query(collection(db, "replies"), where("parentCommentId", "==", postId));
 
+      const querySnapshot = await getDocs(q);
+      const arr = []
+      querySnapshot.forEach((doc) => {
+          arr.push(doc.data())
+          setReplyArray(arr)
+      }); 
+    } catch (e) {
+      console.log(e)
+      alert(e)
+    }
+  }
+  
+  useEffect(() => {
+    fetchReply()
+  }, []) 
+  
+  
   return (
     <div className={styles.comment}>
       <div className={styles.commenter_details}>
@@ -92,8 +148,9 @@ const Comment: FC<Props> = (props) => {
             type="text"
             className={styles.reply_input}
             placeholder="leave a reply"
+            onChange={(e) => setReply(e.target.value)} 
           />
-          <FaPaperPlane className={styles.send_icon} />
+          <FaPaperPlane className={styles.send_icon} onClick={handleReply} />
         </div>
         {loading ? (
           <Spinner />
@@ -103,6 +160,11 @@ const Comment: FC<Props> = (props) => {
             <span> {likes.length} likes</span>
           </div>
         )}
+      </div>
+      <div className={styles.reply_wrapper}>
+          {replyArray.map((re) => (
+            <Reply reply={re.reply} username={re.replyUsername} likes={re.likes} key={re.timestamp}/>
+          ))} 
       </div>
     </div>
   );
