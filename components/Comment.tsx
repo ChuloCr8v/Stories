@@ -163,7 +163,7 @@ const Comment: FC<Props> = (props) => {
       </div>
       <div className={styles.reply_wrapper}>
           {replyArray.map((re) => (
-            <Reply reply={re.reply} username={re.replyUsername} likes={re.likes} key={re.timestamp}/>
+            <Reply reply={re.reply} username={re.replyUsername} likes={re.likes} key={re.timestamp} handleReply={handleReply} setReply = {setReply} />
           ))} 
       </div>
     </div>

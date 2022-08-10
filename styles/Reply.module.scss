@@ -1,8 +1,8 @@
 @import './Mixin.module.scss';
+@import './Comment.module.scss';
 
 .reply {
   padding-left: 10px;
-  padding-top: 10px;
   margin-left: 10px;
   margin-top: 20px;
   border-left: 1px solid #d9d9d9;
@@ -12,4 +12,13 @@
 
 .username {
   font-weight: bold;
+}
+
+.likes_wrapper ,
+.reply_input {
+  border-bottom: 0;
+}
+
+.likes_wrapper {
+  border-left-color: #d9d9d9;
 }
