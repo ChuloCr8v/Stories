@@ -100,6 +100,7 @@ const Comment: FC<Props> = (props) => {
     try {
        await addDoc(collection(db, "replies"), replyData);
        alert('Reply Sent')
+       setReply('')
        fetchReply()
     } catch (e) {
       console.log(e)
@@ -149,6 +150,7 @@ const Comment: FC<Props> = (props) => {
             className={styles.reply_input}
             placeholder="leave a reply"
             onChange={(e) => setReply(e.target.value)} 
+            value = {reply} 
           />
           <FaPaperPlane className={styles.send_icon} onClick={handleReply} />
         </div>

@@ -18,26 +18,8 @@ const Reply : FC <Props> = (props) => {
   return(
       <div className={styles.reply}>
         <p className={styles.username}>{props.username}</p>
-        <p className={styles.reply_body}>{props.reply}</p> <div className={styles.reactions_wrapper}>
-        <div className={styles.input_wrapper}>
-          <input
-            type="text"
-            className={styles.reply_input}
-            placeholder="leave a reply"
-            onChange={(e) => props.setReply(e.target.value)} 
-          />
-          <FaPaperPlane className={styles.send_icon} onClick={props.handleReply} />
-        </div>
-        {loading ? (
-          <Spinner />
-        ) : (
-          <div className={styles.likes_wrapper}>
-            <FaThumbsUp onClick={handleLike} className={styles.likel_icon} style={{color: props.likes.includes(user.username) ? '#000' : 'lightgray'}} />
-            <span> {props.likes.length} likes</span>
-          </div>
-        )}
-      </div>
-       
+        <p className={styles.reply_body}>{props.reply}</p> 
+      
       </div>
     )
 }
