@@ -1,3 +1,46 @@
-.user_post {
-  
+@import './Mixin.module.scss';
+.container {
+  @include flex;
+  width: min(90%, 80rem);
 }
+
+.user_post {
+  @include flex;
+}
+
+.wrapper {
+  padding: 20px;
+  width: 100%;
+  border-top: 1px solid gray;
+}
+
+.post_title {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.reactions_wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px lightgray solid;
+  margin-top: 20px;
+}
+
+.reaction_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  * + * {
+    margin-left: 10px;
+  }
+}
+
+.post_likes {
+  font-size: 1.19em;
+  line-height: 0;
+}
+
+.icon {}
