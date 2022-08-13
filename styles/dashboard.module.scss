@@ -1,0 +1,33 @@
+@import './Mixin.module.scss';
+
+.user_dash {
+  min-height: 100vh;
+  padding: 100px 0;
+}
+
+.welcome_message {
+  span {
+    color: red;
+  }
+}
+
+.prompt {
+  margin-top: -17px;
+  margin-bottom: 50px;
+}
+
+.prompt_link {
+  color: teal;
+  text-transform: capitalize;
+
+}
+
+.clock {
+  @include flex;
+  flex-direction: row;
+}
+
+.time {
+  margin-left: 20px;
+  color: red;
+}

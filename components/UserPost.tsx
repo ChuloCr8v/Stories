@@ -11,14 +11,15 @@ interface Props {
   
 const UserPost : FC = (post) => {
   
-  console.log(post.post.title)
   return (
       <section className={styles.user_post}>
       <div className={styles.container}>
       <div className={styles.wrapper}>
+      <div className={styles.post_time_wrapper}>
+        <p className={styles.post_time}> {new Date(post.post.timeStamp).toLocaleDateString()} </p>
+      </div>
+      <div className={styles.content_wrapper}>
         <p className={styles.post_title}> {post.post.title} </p>
-        <p className={styles.post_body}> {post.post.post} </p>
-        <p className={styles.post_time}> {post.post.timestamp} </p>
         <div className={styles.reactions_wrapper}>
         <div className={styles.reaction_wrapper}>
           <FaHeart className={styles.icon} />
@@ -27,6 +28,7 @@ const UserPost : FC = (post) => {
         <div className={styles.reaction_wrapper}>
           <FaCommentAlt className={styles.icon} />
           <p className={styles.post_likes}> {post.post.comments.length} </p>
+        </div>
         </div>
       </div>
       </div>

@@ -1,0 +1,6 @@
+@import './Mixin.module.scss';
+
+
+.user_posts {
+  @include flex;
+}
