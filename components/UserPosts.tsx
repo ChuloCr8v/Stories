@@ -5,12 +5,14 @@ import { getDocs, query, collection, where } from "firebase/firestore";
 import { db } from "../constants/firebase";
 import UserPost from "./UserPost";
 import Spinner from "./Spinner";
+import {motion} from 'framer-motion'
 
 const UserPosts: FC = () => {
   const [loading, setLoading] = useState<any>(true);
   const [user, setUser] = useState<any>([]);
   const [approvedUserPosts, setApprovedUserPosts] = useState<any>([]);
-
+ 
+  
   useEffect(() => {
     fetchUser(setUser);
     fetchPosts();
@@ -40,9 +42,9 @@ const UserPosts: FC = () => {
       setLoading(false);
     }
   };
-
+  
   return (
-    <section className={styles.user_posts}>
+    <motion.section layout className={styles.user_posts}>       
       {approvedUserPosts?.length >= 1 ? (
         approvedUserPosts?.map((post) => (
           <UserPost post={post.data()} key={post.postId} />
@@ -50,7 +52,7 @@ const UserPosts: FC = () => {
       ) : (
         <Spinner />
       )}
-    </section>
+    </motion.section>
   );
 };
 

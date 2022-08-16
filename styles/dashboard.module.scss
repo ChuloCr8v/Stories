@@ -1,8 +1,23 @@
 @import './Mixin.module.scss';
 
 .user_dash {
+  width: 100%;
   min-height: 100vh;
+  @include flex;
+  justify-content: flex-start;
   padding: 100px 0;
+}
+
+.container {
+  @include flex;
+  justify-content: flex-start;
+  height: 100%;
+  width: min(90%, 80rem);
+}
+
+.welcome_message_wrapper {
+  width: 100%;
+  padding: 0 10px;
 }
 
 .welcome_message {
@@ -30,4 +45,17 @@
 .time {
   margin-left: 20px;
   color: red;
+}
+
+.dash_menu {
+  width: 100%;
+  margin-left: -20px;
+  @include flex_row;
+  margin-bottom: 30px; > * + * {
+    margin-left: 20px;
+  }
+}
+
+.dash_menu_item {
+  transition: all 0.3s ease-in-out;
 }
