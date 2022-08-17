@@ -74,15 +74,17 @@ const fetchApprovedStories = async ({approvedStories, setApprovedStories, setLoa
   setLoading(true);
   try {
     const querySnapshot = await getDocs(collection(db, "posts"));
+    const stories = []
     querySnapshot.forEach((doc: { data: () => any; }) => {
-      {
-        setApprovedStories(doc.data());
-        console.log(approvedStories)
+      { 
+        stories.push(doc.data())
+        setApprovedStories(stories);
       }
       setLoading(false);
     });
   } catch (e) {
     console.log(e);
+    setLoading(false)
   }
 };
 

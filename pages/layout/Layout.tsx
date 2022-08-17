@@ -1,6 +1,7 @@
 import {FC, useState, useEffect} from 'react'
 import Menu from '../../components/Menu'
 import Header from '../../components/Header'
+import UserCard from '../../components/UserCard'
 import styles from '../../styles/Layout.module.scss'
 import {authenticatedUser} from '../../constants/UserAuth'
 const Layout: FC = ({ children }) => {
@@ -14,6 +15,7 @@ const Layout: FC = ({ children }) => {
   return (
     <div className={styles.layout}>
       <Header setShowMenu={setShowMenu} showMenu={showMenu} />
+      <UserCard />
         {children}
       {user ? <Menu bottom={showMenu ? 0 : '-200%'} /> : ''} 
     </div>

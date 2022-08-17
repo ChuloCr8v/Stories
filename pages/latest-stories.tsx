@@ -34,7 +34,7 @@ const LatestStories: FC = () => {
     <div className={styles.container}>
       <div className={styles.wrapper}>
         {!loading ? (
-          <div>
+          <div className={styles.stories_wrapper} >
             {approvedPosts.map((story: any) => (
               <Story
                 title={story.data().title}
