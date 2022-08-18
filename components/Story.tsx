@@ -3,6 +3,7 @@ import styles from "../styles/Story.module.scss";
 import { FaThumbsUp, FaEye } from "react-icons/fa";
 import { auth, db } from "../constants/firebase";
 import firebase from "firebase/compat/app";
+import DOMPurify from 'dompurify';
 import {
   getFirestore,
   arrayRemove,
@@ -99,7 +100,13 @@ const Story: FC<Props> = (props) => {
     }
     setLoading(false);
   };
-
+  
+  const createMarkup = (html) => {
+    return  {
+      __html: DOMPurify.sanitize(html)
+    }
+  }
+  
   return (
     <div className={styles.wrapper}>
       <Link
@@ -123,7 +130,8 @@ const Story: FC<Props> = (props) => {
         <span>By: </span>
         {props.username || props.posterName}{" "}
       </p>
-      <p className={styles.story}>{props.story} </p>
+      <p className={styles.story} dangerouslySetInnerHTML={createMarkup(props.story)}>
+      </p>
       <div className={styles.stats_wrapper}>
         <div className={styles.stat}>
           {loading ? (

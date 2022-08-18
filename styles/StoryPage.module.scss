@@ -2,9 +2,10 @@
 
 .container {
   @include flex;
+  justify-content: flex-start;
   width: min(90%, 80rem);
   min-height: 100vh;
-  padding: 100px 0;
+  padding-top: 50px;
 }
 
 .title {
@@ -22,6 +23,14 @@
 .story_wrapper,
 .story_container {
   width: 100%;
+}
+
+.title_wrapper {
+  border-bottom: 1px solid gray;
+}
+
+.story_container {
+  margin-top: 30px;
 }
 
 .content {

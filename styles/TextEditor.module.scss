@@ -2,12 +2,7 @@
 
 .text_editor {
   @include flex;
-  width: 100%;
-}
-
-.container {
-  width: min(90%, 600px);
-  @include flex;
+  min-width: 100%;
 }
 
 .toolbar {
@@ -15,18 +10,16 @@
   flex-direction: row;
   justify-content: space-around;
   width: 100%;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid gray;
   padding: 10px;
 }
 
 .wrapper {
-  border: 1px solid lightgray;
+  border: 1px solid gray;
 }
 
 .editor {
   min-height: 300px;
-  border: 1px solid lightgray;
-  border-radius: 20px;
-  padding: 10px;
-  margin: 10px;
+  //border: 1px solid lightgray;
+  padding: 0 10px;
 }

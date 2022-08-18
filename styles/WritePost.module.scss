@@ -1,23 +1,37 @@
+@import './Mixin.module.scss';
+
 .write_post {
   min-height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
-  Justify-content: center;
+  Justify-content: flex-start;
   align-items: center;
   position: relative;
-  padding: 200px 0;
+  padding-top: 50px;
 }
 
 .container {
   width: min(90%, 80rem);
   display: flex;
   flex-direction: column;
-  Justify-content: center;
+  Justify-content: flex-start;
   align-items: center;
 }
 
+.wrapper {
+  border: 1px gray solid;
+  padding: 20px;
+  @include flex;
+  border-radius: 10px;
+}
+
+.form {
+  min-width: 100%;
+}
+
 .post_title {
+  background: transparent;
   width: 100%;
   border: none;
   border-bottom: 2px #000 solid;
@@ -30,10 +44,19 @@
   }
 }
 
+.genre_wrapper {
+  margin-top: 30px;
+  max-width: 100%;
+}
+
+.genre_title {
+  color: teal;
+}
+
 .confirm_post_wrapper {
   height: 100vh;
   width: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
@@ -44,6 +67,7 @@
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
   padding: 20px;
+  z-index: 50;
 }
 
 .confirm_post {

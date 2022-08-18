@@ -2,6 +2,7 @@ import { Dispatch, FC, SetStateAction } from "react";
 import { doc, setDoc, collection, getDocs, getDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import { auth } from "./firebase";
+import Router from "next/router";
 
 interface Props {
   postId: number;
@@ -29,6 +30,7 @@ const sendPost = async ({
   posterName,
   posterEmail,
   username,
+  genres
 }) => {
   try {
     //  console.log(username)
@@ -40,6 +42,7 @@ const sendPost = async ({
       {
         title,
         post,
+        genres,
         username,
         posterName,
         posterEmail,
@@ -62,6 +65,7 @@ const sendPost = async ({
     {
       setPost("");
     }
+    Router.push("/Home");
   } catch (e) {
     {
       setLoading(false);

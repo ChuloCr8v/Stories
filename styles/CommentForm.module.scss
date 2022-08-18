@@ -2,6 +2,7 @@
 
 .container {
   @include flex;
+  min-height: 100vh;
   width: min(90%, 80rem);
   position: relative;
   padding: 100px 0;

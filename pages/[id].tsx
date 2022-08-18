@@ -10,6 +10,7 @@ import firebase from "firebase/compat/app";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../constants/firebase";
 import Spinner from "../components/Spinner";
+import DOMPurify from 'dompurify';
 
 interface Props {
   postId: number;
@@ -132,6 +133,12 @@ const Story = (props: {
       alert("unable to process your like at the moment. Give it another try");
     }
   };
+  
+  const createMarkup = (html) => {
+    return  {
+      __html: DOMPurify.sanitize(html)
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -141,7 +148,7 @@ const Story = (props: {
       </div>
       <div className={styles.story_container}>
         <div className={styles.story_wrapper}>
-          <p className={styles.content}>{props.story}</p>
+          <p className={styles.content} dangerouslySetInnerHTML={createMarkup(props.story)}></p>
         </div>
         <div className={styles.stats_wrapper}>
           {loading ? (
