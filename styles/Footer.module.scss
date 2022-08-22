@@ -1,0 +1,121 @@
+@import './Mixin.module.scss';
+
+.footer,
+.container {
+  @include flex;
+  color: white;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.footer {
+  background: #000000;
+  backdrop-filter: blur(50px);
+  padding: 1rem 0;
+  width: 100vw;
+}
+
+.container {
+  padding: 1rem 0;
+  width: min(90%, 80rem);
+}
+
+.logo {
+  font-size: 1.5rem;
+  color: white;
+  font-weight: bold;
+}
+
+.footer_section {
+  width: 100%;
+  @include flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 2.5rem;
+}
+
+.description {
+  margin-top: 1rem;
+  color: #e3e3e3;
+}
+
+.section_title {
+  margin-bottom: -4px;
+}
+
+.footer_menu_item {
+  margin-top: 1rem;
+  color: #e3e3e3;
+  transition: all 0.3s;
+  &:hover {
+    transform: translateX(20px);
+    color: white;
+  }
+}
+
+.form {
+  width: 100%;
+  margin-top: 30px;
+  input {
+    border-radius: 5px;
+    border: none;
+    transition: all 0.3s;
+  }
+  input[type="email"] {
+    width: 80%;
+    padding: 15px;
+    &:hover {
+      border: #1f44e6;
+      outline: none;
+    }
+  }
+  input[type="submit"] {
+    padding: 10px;
+    background: #1f44e6;
+    color: white;
+    margin-left: -30px;
+    cursor: pointer;
+    &:hover,
+    &:focus {
+      outline: none;
+      transform: translateX(20px);
+    }
+  }
+}
+
+.footer_credits {
+  margin-top: 3rem;
+}
+
+.credits {
+  text-align: center;
+  background: rgb(255, 255, 255, 0.2);
+  backdrop-filter: blur(50px);
+  border-radius: 50px;
+  padding: 10px 20px;
+  box-shadow: 3px 5px 10px 2px rgba(0, 0, 0, 0.2);
+  span {
+    color: goldenrod;
+  }
+}
+
+@media (min-width: 992px) {
+  .footer_content {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+  }
+
+  .footer_section {
+    margin-top: 0;
+  }
+
+  .logo_container {
+    grid-column: 1 / span 2;
+  }
+
+  #newsletter {
+    grid-column: 5 / span 2;
+  }
+}

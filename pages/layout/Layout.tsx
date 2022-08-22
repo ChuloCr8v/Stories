@@ -1,6 +1,7 @@
 import {FC, useState, useEffect} from 'react'
 import Menu from '../../components/Menu'
 import Header from '../../components/Header'
+import Footer from '../../components/Footer'
 import UserCard from '../../components/UserCard'
 import styles from '../../styles/Layout.module.scss'
 import {authenticatedUser} from '../../constants/UserAuth'
@@ -17,7 +18,8 @@ const Layout: FC = ({ children }) => {
       <Header setShowMenu={setShowMenu} showMenu={showMenu} />
       <UserCard />
         {children}
-      {user ? <Menu bottom={showMenu ? 0 : '-200%'} /> : ''} 
+      <Menu bottom={showMenu ? 0 : '-200%'} />
+      <Footer />
     </div>
   );
 };

@@ -104,11 +104,12 @@ const fetchUsers = async (setUsers: { (value: any): void; (arg0: any): void; }) 
 const fetchUser = async (setUser: { (value: any): void; (value: any): void; (arg0: any): void; }) => {
   const querySnapshot = await getDocs(collection(db, "users"));
   querySnapshot.forEach((doc: { data: () => any; }) => {
-    const user = auth.currentUser;
+    const _verifyUser = auth.currentUser;
+    const user = _verifyUser !== '' ? _verifyUser : '';
     const data = doc.data();
     Object.fromEntries(
       Object.entries(data).filter(([key, val]) => {
-        const verifyUser = val.toLowerCase().includes(user.email);
+        const verifyUser = user && val.toLowerCase().includes(user.email);
         if (verifyUser) {
           setUser(data);
         }

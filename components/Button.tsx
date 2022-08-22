@@ -9,7 +9,7 @@ interface Props {
 
 const Button:FC <Props> = (props) => {
   return(
-      <button className={styles.btn} onClick={props.onClick} disabled={props.disabled} style={{background: props.bg}} >{props.text}</button>
+      <button className={styles.btn} onClick={props.onClick} disabled={props.disabled} style={{background: props.bg, color: props.color}} >{props.text}</button>
     )
 }
 

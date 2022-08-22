@@ -53,13 +53,13 @@ const Story: FC<Props> = (props) => {
 
   const getUser = () => {
     const arr = [];
-    users.forEach((doc) => {
+    users.length >= 1 && users.forEach((doc) => {
       arr.push(doc.data());
     });
-    const filteredUser = arr.filter(
+    const filteredUser = arr.length >= 1 ? arr.filter(
       (user_) => user_.email.toLowerCase() === _user.email.toLowerCase()
-    );
-    filteredUser.map((filtered) => {
+    ) : '';
+    filteredUser.length > 0 && filteredUser.map((filtered) => {
       setUser(filtered.username);
       setFullName(filtered.fullName);
     });

@@ -6,6 +6,7 @@ import { Toast, Spinner } from "../components";
 import { FaTimes, FaCheck, FaBomb } from "react-icons/fa";
 import Router from "next/router";
 import Link from "next/link";
+import {motion} from 'framer-motion'
 
 const Login: FC = (props) => {
   const [email, setEmail] = useState<string>("");
@@ -44,6 +45,12 @@ const Login: FC = (props) => {
   };
 
   return (
+    
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+     transition={{ duration: 0.1 }} 
+      className={styles.login}>
     <div className={styles.container}>
       <div className={styles.wrapper}>
         {showToast ? (
@@ -106,6 +113,7 @@ const Login: FC = (props) => {
             />
           </div>
           <Button bg={loading ? '#fff' : ''} text={loading ? <Spinner /> : 'Login'} onClick={(e) => login(e, email, password)} />
+          <Button bg={'#fff'} color={'red'} text={'Cancel'} onClick={() => props.setShowForm(!props.showForm)} />
           <p className={styles.login_url}>
             Don't have an account?{" "}
             <span>
@@ -117,6 +125,7 @@ const Login: FC = (props) => {
         </form>
       </div>
     </div>
+    </motion.div>
   );
 };
 

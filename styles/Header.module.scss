@@ -6,6 +6,7 @@
   @include flex;
   box-shadow:3px 3px 8px 2px rgb(0,0,0,0.1);
   position: fixed;
+  top: 0;
   left: 0;
   z-index: 100;
   transition: all 0.3s ease-in-out;

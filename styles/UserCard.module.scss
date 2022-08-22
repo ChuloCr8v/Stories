@@ -1,6 +1,7 @@
 @import './Mixin.module.scss';
 
 .user_card {
+  margin-top: 100px;
   border: 1px gray solid;
   width: min(90%, 80rem);
   padding: 20px;
