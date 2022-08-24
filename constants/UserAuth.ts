@@ -18,7 +18,7 @@ interface Props {
 
 
 
- const signup: FC <Props> = async (fullName, email, username, password, setShowWarning, setShowToast, setUser, doc, setDoc, db, setLoading) => {
+ const signup: FC <Props> = async (fullName, email, username, password, setShowWarning, setShowToast, setUser, doc, setDoc, db, setLoading, setShowSignup) => {
     setShowWarning(false)
     setShowToast(false)
     if (fullName && email && password && username) {
@@ -30,8 +30,8 @@ interface Props {
             if(result){
               alert(`username ${username} already exists. Try new username`)
               setLoading(false)
-            }
             return
+            }
         })
       
     const res = await auth.createUserWithEmailAndPassword(email, password);
@@ -44,6 +44,7 @@ interface Props {
     setTimeout(() => {
       setShowToast(false)
       //Router.push('/Login')
+      setShowSignup(false)
     }, 2000)
   } catch (err) {
     console.error(err);

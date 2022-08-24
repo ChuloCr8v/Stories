@@ -2,13 +2,11 @@ import { FC, useState, useEffect } from "react";
 import { Input, Button } from "../components";
 import styles from "../styles/Signup.module.scss";
 import { auth } from "../constants/firebase";
-import { Toast, Spinner } from "../components";
+import { Toast, Spinner } from "./";
 import { FaTimes, FaCheck, FaBomb } from "react-icons/fa";
 import Router from "next/router";
 import Link from "next/link";
 import {motion} from 'framer-motion'
-import { GoogleLogin } from 'react-google-login';
-import { gapi } from 'gapi-script';
 
 const Login: FC = (props) => {
   const [email, setEmail] = useState<string>("");
@@ -17,26 +15,6 @@ const Login: FC = (props) => {
   const [showToast, setShowToast] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  
-  const clientId = '756499025800-b2fjci3tvanu0v56v94spscklspsh9kb.apps.googleusercontent.com';
-
-  useEffect(() => {
-   const initClient = async () => {
-      await gapi.client.init({
-         clientId: clientId,
-         scope: ''
-      });
-    };
-    gapi.load('client:auth2', initClient);
-}, []);
-
-  const onSuccess = (res) => {
-        console.log('success:', res);
-    };
-    
-  const onFailure = (err) => {
-        console.log('failed:', err);
-    };
   
   const showSignupForm = () => {
     props.setShowForm(!props.showForm)
@@ -142,14 +120,6 @@ const Login: FC = (props) => {
             />
           </div>
           <Button bg={loading ? '#fff' : ''} text={loading ? <Spinner /> : 'Login'} onClick={(e) => login(e, email, password)} />
-          <GoogleLogin
-            clientId={clientId}
-            buttonText="Sign in with Google"
-            onSuccess={onSuccess}
-            onFailure={onFailure}
-            cookiePolicy={'single_host_origin'}
-            isSignedIn={true}
-          />
           <Button bg={'#fff'} color={'red'} text={'Cancel'} onClick={() => props.setShowForm(!props.showForm)} />
           <p className={styles.login_url}>
             Don't have an account?{" "}

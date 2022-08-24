@@ -15,7 +15,7 @@ const UserCard: FC<Props> = (props) => {
   
   useEffect(() => {
     fetchUser(setUser)
-  }, [])
+  }, [_user])
   
   setTimeout(() => {
    const date = Date.now()
@@ -28,7 +28,7 @@ const UserCard: FC<Props> = (props) => {
     <div className={styles.user_card}>
       <div className={styles.container}>
         <div className={styles.welcome_message_wrapper}>
-          <h2 className={styles.welcome_message}>Hello <span>{user ? user.username : 'Guest'}</span></h2>
+          <h2 className={styles.welcome_message}>Hello <span>{_user ? user.username : 'Guest'}</span></h2>
         </div>
         <nav className={styles.user_menu}>
           <div className={styles.user_menu_item}>

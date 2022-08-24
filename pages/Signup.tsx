@@ -8,6 +8,8 @@ import Link from 'next/link'
 import { doc, setDoc } from "firebase/firestore"; 
 import {signup, authenticatedUser} from '../constants/UserAuth'
 import Spinner from '../components/Spinner'
+import {motion} from 'framer-motion'
+
 
 const Signup :FC = (props) => {
   
@@ -20,11 +22,22 @@ const Signup :FC = (props) => {
   const [showWarning, setShowWarning] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   
+  const setShowSignup = props.setShowSignup
+  
   const confirmSignup = () => {
-     signup(fullName, email, username, password, setShowWarning, setShowToast, setUser, doc, setDoc, db, setLoading)
+     signup(fullName, email, username, password, setShowWarning, setShowToast, setUser, doc, setDoc, db, setLoading, setShowSignup)
   }
   
+  const showLoginForm = () => {
+    props.setShowForm(true)
+    props.setShowSignup(false)
+  }
   return(
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+     transition={{ duration: 0.1 }} 
+      className={styles.login}>
   <div className={styles.container} >
      {showToast ? <Toast msg={user ? "You have signed up successfully" : "error, unable to sign you up. Please try one more time"} closeIcon=<FaTimes className={styles.close_icon} onClick={() => setShowToast(false)} /> icon={user ? <FaCheck className={styles.icon} /> : <FaTimes className={styles.icon} />}  /> : ''} 
       {showWarning ? <Toast msg={"Please Fill In All Credentials!"} icon={<FaBomb className={styles.icon} />} closeIcon={<FaTimes className={styles.close_icon} onClick={() => setShowWarning(false)} />} /> : ''}  
@@ -48,11 +61,14 @@ const Signup :FC = (props) => {
        </div>
        <div className={styles.btn_wrapper}>
          {loading ? <Spinner /> : <Button text={"Signup"} onClick={confirmSignup} />} 
+          <Button bg={'#fff'} color={'red'} text={'Cancel'} onClick={() => props.setShowSignup(false)} />
        </div>
-       <p className={styles.login_url}>Have an account? <span><Link href="/Login"><a className={styles.url}>Login here </a></Link></span></p>
+       <p className={styles.login_url}>Have an account? <span className={styles.url} onClick={showLoginForm}>Login here
+            </span></p>
       </div>
     </div>
     </div>
+    </motion.div>
     )
 }
 
