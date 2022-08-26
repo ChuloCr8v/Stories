@@ -31,7 +31,10 @@ const Login: FC = (props) => {
         setUser(_user);
         setLoading(false);
         setShowToast(true);
-        Router.push("/MainNav");
+        setTimeout(() => {
+          setShowToast(false)
+        props.setShowForm(!props.showForm)
+        }, 2000)
       } catch (err) {
         console.error(err);
         setShowToast(true);

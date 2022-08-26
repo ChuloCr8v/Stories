@@ -1,7 +1,6 @@
 import {auth} from './firebase'
 import Router from 'next/router'
-import { doc, setDoc, collection, getDocs} from "firebase/firestore"; 
-
+import { getDocs, query, where,  doc, setDoc, collection} from "firebase/firestore"; 
 interface Props {
   fullName: string
   email: string
@@ -24,15 +23,17 @@ interface Props {
     if (fullName && email && password && username) {
       setLoading(true)
       try {
-        const querySnapshot = await getDocs(collection(db, 'users'))
-        querySnapshot.forEach((doc) => {
-            const result = doc.data().username === username
-            if(result){
-              alert(`username ${username} already exists. Try new username`)
-              setLoading(false)
-            return
-            }
-        })
+        const q = query(
+          collection(db, "users"), 
+          where("username", "==", `${username}`)
+      );
+      const querySnapshot = await getDocs(q);
+      const arr = []
+      const verifyUsername = querySnapshot.forEach(data => {arr.push(data.data().username)} )
+      if ( arr.includes(`${username}`)) {
+        alert('OOPS! Username already exists. Pick a new one') 
+        return setLoading(false)
+      } 
       
     const res = await auth.createUserWithEmailAndPassword(email, password);
     const _user = res.user;
