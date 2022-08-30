@@ -1,7 +1,6 @@
 import { FC, useState, useEffect } from "react";
 import styles from "../styles/LatestPost.module.scss";
 import Story from "../components/Story";
-import { fetchApprovedStories } from "../constants/methods";
 import Loading from "../components/Loading";
 import { doc, setDoc, collection, getDocs, getDoc } from "firebase/firestore";
 import { db } from "../constants/firebase";

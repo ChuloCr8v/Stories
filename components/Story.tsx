@@ -2,6 +2,7 @@ import { FC, useState, useEffect } from "react";
 import styles from "../styles/Story.module.scss";
 import { FaThumbsUp, FaEye } from "react-icons/fa";
 import { auth, db } from "../constants/firebase";
+import { fetchUserProfile } from '../constants/methods'
 import firebase from "firebase/compat/app";
 import DOMPurify from 'dompurify';
 import {
@@ -17,6 +18,7 @@ import {
 import { fetchUsers } from "../constants/methods";
 import Link from "next/link";
 import Spinner from "./Spinner";
+import { getDocs, query, collection, where } from "firebase/firestore";
 
 interface Props {
   title: string;
@@ -38,8 +40,10 @@ const Story: FC<Props> = (props) => {
   const [users, setUsers] = useState<any>([]);
   const [user, setUser] = useState<any>("");
   const [fullName, setFullName] = useState<any>("");
+  const [userProfileDetails, setUserProfileDetails] = useState<[]>([])
   const _user = auth.currentUser;
-
+  
+  
   const getLikes = async () => {
     const docRef = doc(db, "posts", `${props.postId}`);
     const docSnap = await getDoc(docRef);
@@ -100,6 +104,10 @@ const Story: FC<Props> = (props) => {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+  fetchUserProfile({userEmail: props.posterEmail, setUserProfileDetails})
+}, [])
   
   const createMarkup = (html) => {
     return  {
@@ -108,33 +116,54 @@ const Story: FC<Props> = (props) => {
   }
   
   return (
+    <div className={styles.container}>
     <div className={styles.wrapper}>
-      <Link
-        href={{
-          pathname: "/[id]",
-          query: {
-            id: props.postId,
-            title: props.title,
-            story: props.story,
-            username: props.username,
-            fullName: props.fullName,
-            likes: props.likes,
-          },
-        }}
-      >
-        <a className={styles.single_story}>
-          <h2 className={styles.title}>{props.title} </h2>
-        </a>
-      </Link>
-      <p className={styles.name}>
-        <span>By: </span>
-        {props.username || props.posterName}{" "}
-      </p>
-      <p className={styles.story} dangerouslySetInnerHTML={createMarkup(props.story)}>
-      </p>
-      <div className={styles.stats_wrapper}>
-        <div className={styles.stat}>
-          {loading ? (
+      <div className={styles.story_art_wrapper}>
+        {props.storyArt ? <Image src={props.storyArt} className={styles.story_art} height={300} width={200} /> : 
+          <div className={styles.story_art_placeholder}>
+            <h3 className={styles.title}>{props.title}</h3>
+            <p className={styles.poster} >{props.username} </p>
+          </div>
+        }
+      </div>
+      <div className={styles.story_content_wrapper}>
+        <Link
+          href={{
+            pathname: "/[id]",
+            query: {
+              id: props.postId,
+              title: props.title,
+              story: props.story,
+              username: props.username,
+              fullName: props.fullName,
+              likes: props.likes,
+            },
+          }}
+        >
+          <a className={styles.single_story}>
+            <h2 className={styles.title}>{props.title} </h2>
+          </a>
+        </Link>
+        <Link
+         href={{
+            pathname: "/user/[user]",
+            query: {
+              user: props.username,
+              id: props.username,
+              posterEmail: props.posterEmail,
+            },
+          }}
+        >
+          <a className={styles.name}>
+            <span>By: </span>
+            {props.username || props.posterName}{" "}
+          </a>
+        </Link>
+        <p className={styles.story} dangerouslySetInnerHTML={createMarkup(props.story)}>
+        </p>
+        <div className={styles.stats_wrapper}>
+          <div className={styles.stat}>
+            {loading ? (
             <Spinner />
           ) : (
             <FaThumbsUp
@@ -144,20 +173,22 @@ const Story: FC<Props> = (props) => {
               style={{ color: likes.includes(user) ? "#000000" : "#d9d9d9" }}
             />
           )}
-          {loading ? (
-            ""
-          ) : (
-            <p className={styles.likers}>
-              {likes.length > 1
-                ? `${likes.slice(-1)} and ${likes.length - 1} others `
-                : likes}{" "}
-            </p>
-          )}
+            {loading ? (
+              ""
+            ) : (
+              <p className={styles.likers}>
+                {likes.length > 1
+                  ? `${likes.slice(-1)} and ${likes.length - 1} others `
+                  : likes}{" "}
+              </p>
+            )}
+          </div>
+          <div className={styles.stat}>
+            <FaEye className={styles.icon} />
+            <p className={styles.likers}>{props.views}</p>
+          </div>
         </div>
-        <div className={styles.stat}>
-          <FaEye className={styles.icon} />
-          <p className={styles.likers}>{props.views}</p>
-        </div>
+       </div>
       </div>
     </div>
   );
@@ -165,3 +196,4 @@ const Story: FC<Props> = (props) => {
 
 export default Story;
    
+ 

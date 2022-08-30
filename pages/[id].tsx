@@ -39,7 +39,7 @@ const Story = (props: {
   const parentPostId = props.postId;
   const username = user.username;
   const fullName = user.fullName;
-
+   
   //Fetch likes
 
   const getLikes = async () => {

@@ -8,8 +8,17 @@
   // box-shadow: 0 8px 15px 0 rgba(31, 38, 135, 0.37);
 }
 
-.wrapper {
+.container {
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 3px 3px 8px 2px rgb(0,0,0,0.2);
   width: min(350px, 400px);
+  @include flex;
+}
+
+.wrapper {
+  width: 100%;
+  @include flex;
   &:not(:first-child) {
     border-top: 1px gray solid;
   }
@@ -22,15 +31,48 @@
   margin-top: 20px;
 }
 
+.story_content_wrapper {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.story_art_wrapper {
+  @include flex;
+  border: 1px gray solid;
+  width: 100%;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.story_art_placeholder {
+  padding: 20px;
+  @include flex;
+  justify-content: space-between;
+  height: 400px;
+  width: 300px;
+  border-radius: 10px;
+  background: linear-gradient(45deg, rgba(255,0,0,0.298), rgba(0,116,128,0.282));
+  box-shadow: 3px 3px 8px 2px rgb(0,0,0,0.2);
+  .title {
+    width: 100%;
+    font-size: 25px;
+    color: Red;
+    text-transform: capitalize;
+    text-align: left;
+  }
+}
+
 .title {
   font-size: 1.2em;
   text-transform: capitalize;
+  text-align: center;
 }
 
 .name {
-  margin-top: -10px;
+  margin-top: -15px;
   font-size: .9em;
   color: gray;
+  text-align: center;
 }
 
 .stats_wrapper {

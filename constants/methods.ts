@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction } from "react";
-import { doc, setDoc, collection, getDocs, getDoc } from "firebase/firestore";
+import { doc, setDoc, collection, getDocs, getDoc, query, where } from "firebase/firestore";
 import { db } from "./firebase";
 import { auth } from "./firebase";
 import Router from "next/router";
@@ -161,6 +161,24 @@ const sendComment = async ({
   }
 };
 
+const fetchUserProfile = async (props) => {
+  try {
+     const q = query(
+     collection(db, "users"),
+       where('email', "==", `${props.userEmail}`) 
+      ); 
+      const querySnapshot = await getDocs(q);
+      const arr = [];
+      querySnapshot.forEach((doc) => {
+        arr.push(doc.data());
+        props.setUserProfileDetails(arr)
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  
+}
+ 
 
 export {
   sendPost,
@@ -168,4 +186,5 @@ export {
   fetchUsers,
   fetchUser,
   sendComment,
+  fetchUserProfile
 };

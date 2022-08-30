@@ -7,11 +7,11 @@ import Router from 'next/router'
 import {fetchApprovedStories} from '../constants/methods'
 import Story from '../components/Story'
 import Loading from '../components/Loading'
+import {motion} from 'framer-motion'
 
 const Home : FC = () => {
   const [approvedStories, setApprovedStories] = useState<any>([])
   const [loading, setLoading] = useState<boolean>(false)
-  
   
   const auth = getAuth()
   const signout = async () => {
@@ -52,7 +52,7 @@ const Home : FC = () => {
         {!loading ? (
         <div className={styles.stories_heading_wrapper}>
          <Heading heading={'top stories'} />
-        <div className={styles.stories_wrapper}>
+        <motion.div layout className={styles.stories_wrapper}>
           {approvedStories.map((story: any) => (
              <Story
                title={story.title}
@@ -67,7 +67,7 @@ const Home : FC = () => {
                comments={story.comments}
             />
           ))}
-        </div>
+        </motion.div>
         </div>
         ) : (
           <Loading title={"Getting New Posts"} />

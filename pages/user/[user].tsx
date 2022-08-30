@@ -1,17 +1,21 @@
 import {FC, useState, useEffect} from 'react'
-import {fetchUser} from '../constants/methods'
-import UserDash from '../components/UserDash'
-import styles from '../styles/dashboard.module.scss'
+import {fetchUserProfile} from '../../constants/methods'
+import UserDash from '../../components/UserDash'
+import styles from '../../styles/User.module.scss'
 import Link from 'next/link'
 
-const dashboard: FC = () => {
+const dashboard: FC = (props) => {
   const [user, setUser] = useState<any>('')
   const [menuData, setMenuData] = useState<any>('Home')
-  
+  const [userProfileDetails, setUserProfileDetails] = useState<[]>([])
   
   useEffect(() => {
-    fetchUser(setUser)
+    fetchUserProfile({userEmail: props.posterEmail, setUserProfileDetails})
   }, [])
+  
+  const email = userProfileDetails.map(user => user.email)
+  console.log(email)
+  
   
   return (
       <div className={styles.user_dash}>
@@ -26,8 +30,8 @@ const dashboard: FC = () => {
                <p className={styles.dash_menu_item} onClick={() => setMenuData('About')} >About</p>
              </div>
           <div className={styles.wrapper}>
-             {menuData === 'Home' ? <UserDash /> : ''} 
-             {menuData === 'About' ? 'About Section' : ''} 
+             {menuData === 'Home' ? <UserDash email={email} /> : ''} 
+             {menuData === 'About' ? 'About Section' : ''}
           </div>
         </div>
         </div>
@@ -35,17 +39,12 @@ const dashboard: FC = () => {
     )
 }
 
-export default dashboard
-
+export default dashboard 
 export async function getServerSideProps(context) {
-  
-  console.log(context.query)
-  // returns { id: episode.itunes.episode, title: episode.title}
-  //you can make DB queries using the data in context.query
   return {
     props: {
-      id: context.query.id,
-      //pass it to the page props
+      id: context.query.id, 
+      posterEmail: context.query.posterEmail
     },
   };
 }

@@ -7,7 +7,7 @@ import UserPost from "./UserPost";
 import Spinner from "./Spinner";
 import {motion} from 'framer-motion'
 
-const UserPosts: FC = () => {
+const UserPosts: FC = (props) => {
   const [loading, setLoading] = useState<any>(true);
   const [user, setUser] = useState<any>([]);
   const [approvedUserPosts, setApprovedUserPosts] = useState<any>([]);
@@ -28,7 +28,7 @@ const UserPosts: FC = () => {
     try {
       const q = query(
         collection(db, "posts"),
-        where("username", "==", `${user.username}`)
+        where("posterEmail", "==", `${props.email}`)
       );
       const querySnapshot = await getDocs(q);
       const arr = [];
