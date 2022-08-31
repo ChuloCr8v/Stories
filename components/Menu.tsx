@@ -7,6 +7,7 @@ import {auth} from '../constants/firebase'
 import Link from 'next/link'
 import Login from './Login'
 import Signup from '../pages/Signup'
+import {fetchUserProfile} from '../constants/methods'
 
 interface Props {
   bottom: any
@@ -16,10 +17,20 @@ interface Props {
 const Menu: FC <Props> = (props) => {
  const [showForm, setShowForm] = useState<any>(false)
   const [showSignUp, setShowSignup] = useState<any>(false)
+  const [userProfileDetails, setUserProfileDetails] = useState<[]>([])
   
   const user = auth.currentUser 
   const router = useRouter()
   const href = router.asPath
+ 
+  const username = userProfileDetails.map(profile => profile.username)
+  const posterEmail = userProfileDetails.map(profile => profile.email)
+  
+  useEffect(() => {
+    user ? fetchUserProfile({setUserProfileDetails, userEmail: user.email}) : ''
+  }, [user])
+  
+  
   return (
       <div className={styles.menu} style={{bottom: props.bottom}} >
                     {showForm ? <Login setShowForm={setShowForm} showForm={showForm} showSignUp={showSignUp} setShowSignup={setShowSignup} /> : ''} 
@@ -54,7 +65,16 @@ const Menu: FC <Props> = (props) => {
            />
         </div>
         {user ? 
-             <Link href="/dashboard">
+             <Link 
+              href={{
+                pathname: "/user/[user]", 
+                query: {
+                  user: username, 
+                  id: username, 
+                  posterEmail: posterEmail, 
+                }, 
+              }} 
+            >
                 <a className={styles.icon_wrapper} style={{color: showForm ? '#000' : 'gray'}}>
                   <FaUser className={styles.icon} style={{color: showForm ? '#000' : 'gray'}} />
                 </a>

@@ -43,7 +43,6 @@ const Story: FC<Props> = (props) => {
   const [userProfileDetails, setUserProfileDetails] = useState<[]>([])
   const _user = auth.currentUser;
   
-  
   const getLikes = async () => {
     const docRef = doc(db, "posts", `${props.postId}`);
     const docSnap = await getDoc(docRef);

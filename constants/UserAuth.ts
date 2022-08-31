@@ -63,18 +63,18 @@ interface Props {
   }
 
 
- const authenticatedUser: FC<Props> = ({setLoading, setUser}) => {
+/* const authenticatedUser: FC<Props> = ({setLoading, setUser}) => {
    
     auth.onAuthStateChanged((_user) => {
       if (_user) {
         {setUser(_user)} 
-        setLoading(false)
+        {setLoading(false)} 
       } else {
         {setUser(null)}
         {setLoading(false)} 
       }
     });
- }
+ } */
 
-export {authenticatedUser} 
+//export {authenticatedUser} 
 export {signup} 

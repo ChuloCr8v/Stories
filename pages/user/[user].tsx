@@ -14,7 +14,6 @@ const dashboard: FC = (props) => {
   }, [])
   
   const email = userProfileDetails.map(user => user.email)
-  console.log(email)
   
   
   return (

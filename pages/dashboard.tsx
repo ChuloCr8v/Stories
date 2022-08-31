@@ -37,15 +37,3 @@ const dashboard: FC = () => {
 
 export default dashboard
 
-export async function getServerSideProps(context) {
-  
-  console.log(context.query)
-  // returns { id: episode.itunes.episode, title: episode.title}
-  //you can make DB queries using the data in context.query
-  return {
-    props: {
-      id: context.query.id,
-      //pass it to the page props
-    },
-  };
-}

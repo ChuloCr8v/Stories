@@ -9,9 +9,9 @@ const Layout: FC = ({ children }) => {
   const [user, setUser] = useState<any>(null)
   const [showMenu, setShowMenu] = useState<boolean >(false)
   
-  useEffect(() => {
+{/*  useEffect(() => {
     authenticatedUser({setUser})
-  }, [])
+  }, []) */} 
   
   return (
     <div className={styles.layout}>
