@@ -30,6 +30,12 @@ const Menu: FC <Props> = (props) => {
     user ? fetchUserProfile({setUserProfileDetails, userEmail: user.email}) : ''
   }, [user])
   
+  const checkLoginStatus = () => {
+    if (!user) {
+      alert('Please login to write posts')
+      return
+    }
+  }
   
   return (
       <div className={styles.menu} style={{bottom: props.bottom}} >
@@ -54,16 +60,17 @@ const Menu: FC <Props> = (props) => {
             />
           } 
         />
-        <div className={styles.write_icon_wrapper}>
+        {user ? <div className={styles.write_icon_wrapper}
+        >
           <MenuItem 
             title={"Write"} 
             titleColor={href === `/NewPost` ? 'yellow' : 'white'} 
-            url={"/NewPost"} 
+            url={"/NewPost"}  
             icon={
               <FaPenFancy className={styles.icon} style={{color: href === `/NewPost` ? 'yellow' : '#fff'}} />} id={styles.write_menu_item
             } 
            />
-        </div>
+        </div> : ''} 
         {user ? 
              <Link 
               href={{

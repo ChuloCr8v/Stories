@@ -114,8 +114,29 @@ const Story: FC<Props> = (props) => {
     }
   }
   
+  const addView = async () => {
+    getUser()
+  try {
+      const docRef = doc(db, "posts", `${props.postId}`);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.data().views.includes(user)) {
+        return 
+       } else {
+        await updateDoc(docRef, {
+          views: firebase.firestore.FieldValue.arrayUnion(`${user}`),
+        });
+          alert('view updated')
+      }
+      alert('view updated')
+    } catch (e) {
+      console.log(e);
+      alert(e)
+    }
+}
+  
+  
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={addView}>
     <div className={styles.wrapper}>
       <div className={styles.story_art_wrapper}>
         {props.storyArt ? <Image src={props.storyArt} className={styles.story_art} height={300} width={200} /> : 
@@ -127,6 +148,7 @@ const Story: FC<Props> = (props) => {
       </div>
       <div className={styles.story_content_wrapper}>
         <Link
+          onClick={addView} 
           href={{
             pathname: "/[id]",
             query: {
